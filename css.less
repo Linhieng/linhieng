@@ -1,0 +1,69 @@
+@size: 140px;
+
+html {
+    /* 设置视距 */
+    perspective: 800px;
+}
+
+img {
+    width         : @size;
+    height        : @size;
+    /* 消除图片之间的间隙 */
+    vertical-align: top;
+    width: 0;
+}
+
+div#cube {
+    width          : @size;
+    height         : @size;
+    position       : relative;
+    margin         : 50px auto;
+    /* 开启3D，不然转动时看到的都是2D压缩平面 */
+    transform-style: preserve-3d;
+    animation      : rotate 10s infinite linear;
+}
+
+#cube>div {
+    width   : @size;
+    height  : @size;
+    /* 设置透明效果 */
+    opacity : 0.8;
+    /* 脱离文档流，全部图片集合在一起 */
+    position: absolute;
+}
+
+// 上
+.box1 {
+    transform: rotateX(90deg) translateZ(@size/2);
+}
+
+// 下
+.box2 {
+    transform: rotateX(-90deg) translateZ(@size/2);
+}
+
+// 前
+.box3 {
+    transform: rotateX(0deg) translateZ(@size/2);
+}
+
+// 后
+.box4 {
+    transform: rotateX(180deg) translateZ(@size/2);
+}
+
+// 左
+.box5 {
+    transform: rotateY(-90deg) translateZ(@size/2);
+}
+
+// 右
+.box6 {
+    transform: rotateY(90deg) translateZ(@size/2);
+}
+
+@keyframes rotate {
+    to {
+        transform: rotateX(1turn) rotateY(1turn);
+    }
+}
