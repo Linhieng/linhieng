@@ -1,37 +1,111 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="zh">
 
-You can use the [editor on GitHub](https://github.com/KeeGithub/linhieng.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平凡人的博客</title>
+    <!-- <link rel="stylesheet" href="./css.css"> -->
+    <style>
+        html{perspective:800px}img{width:140px;height:140px;vertical-align:top;width:0}div#cube{width:140px;height:140px;position:relative;margin:50px auto;transform-style:preserve-3d;animation:rotate 10s infinite linear}#cube>div{width:140px;height:140px;opacity:.8;position:absolute}.box1{transform:rotateX(90deg) translateZ(70px)}.box2{transform:rotateX(-90deg) translateZ(70px)}.box3{transform:rotateX(0deg) translateZ(70px)}.box4{transform:rotateX(180deg) translateZ(70px)}.box5{transform:rotateY(-90deg) translateZ(70px)}.box6{transform:rotateY(90deg) translateZ(70px)}@keyframes rotate{to{transform:rotateX(1turn) rotateY(1turn)}}/*# sourceMappingURL=./css.css.map */
+        * {
+            margin: 0;
+            /* 开启后无法显示3D */
+            /* overflow: hidden; */
+        }
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+        div#main {
+            width: 100%;
+            height: 100vh;
+            background-color: black;
+        }
 
-### Markdown
+        div#text{
+            padding-top: 100px;
+        }
+        
+        div#main p {
+            font-size: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        div#main p a{
+            color: cornflowerblue;
+            text-decoration-line: none;
+            transition: 0.3s;
+        }
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+        div#main p a:hover {
+            color: rgb(255, 0, 21);
+        }
 
-```markdown
-Syntax highlighted code block
+    </style>
 
-# Header 1
-## Header 2
-### Header 3
+    <script>
+        window.onload = function() {
+            var allA = document.getElementsByTagName("a");
+            var img = document.getElementsByTagName("img");
 
-- Bulleted
-- List
+            for (i = 0; i < img.length; i++) {
+                    img[i].style.transition = 0.2 + "s";
+                }
+            
+            allA[0].onmousemove = function() {
+                for (i = 0; i < img.length; i++) {
+                    img[i].style.width = 140 + "px";
+                }
+            };
 
-1. Numbered
-2. List
+            allA[0].onmouseout = function() {
+                for (i = 0; i < img.length; i++) {
+                    img[i].style.width = "";
+                }
+            };
 
-**Bold** and _Italic_ and `Code` text
+            
+        }
+    </script>
 
-[Link](url) and ![Image](src)
-```
+</head>
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+<body>
+    <div id="main">
+        <div id="text">
+            <p><a href="javascript:;">Hello World</a></p>
+        </div>
 
-### Jekyll Themes
+        <!-- 3D正方体 -->
+        <div id="cube">
+            <div class="box1">
+                <img src="./1.jpg">
+                <!-- <img src="./image/1.jpg"> -->
+            </div>
+          <div class="box2">
+            <!-- <div class="box2"> -->
+                <img src="./1.jpg">
+                <!-- <img src="./image/2.jpg"> -->
+            </div>
+            <div class="box3">
+                <img src="./1.jpg">
+                <!-- <img src="./image/3.jpg"> -->
+            </div>
+            <div class="box4">
+                <img src="./1.jpg">
+                <!-- <img src="./image/4.jpg"> -->
+            </div>
+            <div class="box5">
+                <img src="./1.jpg">
+                <!-- <img src="./image/5.jpg"> -->
+            </div>
+            <div class="box6">
+                <img src="./1.jpg">
+                <!-- <img src="./image/6.jpg"> -->
+            </div>
+        </div>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/KeeGithub/linhieng.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+    </div>
 
-### Support or Contact
+</body>
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+</html>
