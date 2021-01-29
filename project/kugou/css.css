@@ -57,7 +57,10 @@
         这个就算了，可官网不一样而已，而且在最初设置html 的布局时没有想到，就不改了
     3、导航条的右侧超链接不对应
         可以通过js来获取鼠标点击事件，进而跳转
-    4、响应式bug，窗口缩小时丢失内容
+    4、响应式bug，窗口放大时丢失内容
+        ccc，居然忘记了这个bug。。。。
+        一个是后面某一个类100%写成了1000%
+        还有就是最外围的框宽度不要写100%，不然放大页面时不会有横线滚动条
     5、无法直接添加图片
         这次就先这样了，这是因为设置时没考虑通用性，有一些参数写死了
     6、精选歌单四张图不是正方形
@@ -92,16 +95,27 @@ html {
 
 /* 整个页面 */
 .mainPage {
-    height: 110vh;
-    width: 100%;
+    /* height: 110vh; */
+    /* width: 100%; */
+    width: 1519px;
+    height: 2354px;
+    overflow: hidden;
+    /* visibility: hidden; */
+    /* width: 1000px; */
+    justify-self: center;
     display        : flex;
     /* 主轴为垂直方向,不换行 */
     /* flex-grow: column nowrap; */
     flex-flow      : nowrap column;
     /* 让子元素中居中 */
-    align-items: center;
+    align-items: center;  
 }
-
+/* 页面缩小时 */
+@media (min-width: 1519px){
+    .mainPage{
+        width: 100%;
+    }
+}
 /* 工具类 */
 .hideSecond{
     display: none;
@@ -2041,7 +2055,9 @@ html {
 }
 /* 内容链接 */
 .blogroll .blogrollContent{
-    width: 1000%;
+    /* 这里写成这样可知道什么后果！！！！！！！ */
+    /* width: 1000%; */
+    width: 100%;
 }
 .blogroll .blogrollContent ul {
     width: 1000px;
