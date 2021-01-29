@@ -44,19 +44,21 @@
 
     <script>
         window.onload = function() {
+            // 获取HelloWorld超链接节点
             var allA = document.getElementsByTagName("a");
             var img = document.getElementsByTagName("img");
 
+            // 加上动态时间
             for (i = 0; i < img.length; i++) {
                     img[i].style.transition = 0.2 + "s";
                 }
-            
+            // 鼠标移入
             allA[0].onmousemove = function() {
                 for (i = 0; i < img.length; i++) {
                     img[i].style.width = 140 + "px";
                 }
             };
-
+            // 鼠标移出
             allA[0].onmouseout = function() {
                 for (i = 0; i < img.length; i++) {
                     img[i].style.width = "";
@@ -72,7 +74,8 @@
 <body>
     <div id="main">
         <div id="text">
-            <p><a href="javascript:;">Hello World</a></p>
+            <!-- 点击可跳转到酷狗页面 -->
+            <p><a href="./project/kugou/index.html">Hello World</a></p>
         </div>
 
         <!-- 3D正方体 -->

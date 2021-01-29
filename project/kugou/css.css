@@ -1,0 +1,2182 @@
+/* 
+注意：
+    - 为弹性元素设置是使用
+        align-self
+        注意，如果出现不居中，可能是元素与元素之间高度不同，而设置的align-self设置到父类上了
+    - flex-shrink: 0;
+        搜索不为0的话，设置了height相等于无效
+    - 取消输入框点击时出现边框
+        outline: none;
+    - 通过background-size: 231px;来设置背景图片放大或缩小。如果需要通过这个来调整雪碧图，你该想想你的盒子大小是不是弄错了！！！
+    - flex-flow和flex-grow不要弄混了！！！flow才是wrap和direction
+    - 区分好items和content,前者处理轴，后者处理空白分配
+    - li:nth-child()，指的的li类型的第一个元素，而不是li的子代的第一个元素
+    - 单行文字居中
+        垂直居中：line-height: 和父元素一样高;
+        水平居中：text-align: center;
+    - 超链接考虑一下点击访问！
+    - background-position可以设置关键字（两个方向），九宫格操作，center center
+    - top设置为百分比，默认是以顶部为标准，我们无法直接修改，但是可以通过margin-top设为负值来修改
+    - text-indent:-99999em;首行缩进，可让文字消失.em:相对于当前对象内文本的字体尺寸，比如1em=16px（浏览器默认字体大小）。
+    - z-index:会受父元素影响，ul都设置了90，那么子代li的z-index相当于无效
+    - 设置字体粗细
+        font-width,值无单位
+    - 字体消失
+        font-size；0
+    - 盖子
+        鼠标移入时要出现的内容用一个盖子类包起来，然后hover设给盖子的父类
+    - 超出部分隐藏
+        让文字不换行 white-space: nowrap;
+        让超出部分...显示 text-overflow: ellipsis;   
+            需要搭配width还有hidden使用
+    - hidden 不要随便弄，容易找不到元素！！！
+    - img在html中src值为空的话，会有细框，不是属于边框，不知道是什么
+        想要在css中设置img的值，无法直接设置，可以间接设置：
+            将width和height设为0，然后设置padding，再设置背景图片
+    - div的宽度width不包括border和padding、margin！！！！！
+    - text-align: center;
+        文本的对齐方式，左中右
+    - ::after
+        伪元素需要有content:"";才会出现！！！
+    - 不同的地方的类名相同，可能导致某处设置的样式不生效
+    - title等一些有特殊的标签名不会用先不用用，容易出错！
+    - 要善于利用样式继承父类！！！！！！！！！！！
+*/
+
+/* 
+    如何让浮动的元素换行的同时指定一行最多能有几个元素，
+        即使有空位置也不让多余的原始上来
+        - 这个问题不错，我到现在还不知道。。
+*/
+
+/* 
+    没有处理的bug：
+    1、搜索框箭头
+        设置padding就可以了
+    2、导航栏更多和更多图标
+        这个就算了，可官网不一样而已，而且在最初设置html 的布局时没有想到，就不改了
+    3、导航条的右侧超链接不对应
+        可以通过js来获取鼠标点击事件，进而跳转
+    4、响应式bug，窗口缩小时丢失内容
+    5、无法直接添加图片
+        这次就先这样了，这是因为设置时没考虑通用性，有一些参数写死了
+    6、精选歌单四张图不是正方形
+        。。。我可以说是官网的坑吗？官网也没对齐。。。应该是最初设计时没考虑全各个距离
+    7、有些相同的代码未合并
+        这属于新手的通病，主要是我不熟练，能多敲点就多敲点，
+        所以这个页面代码看行数的话非常多，但有效行数我觉得只有总行数的1/2，
+        用到的知识点行数的话就更少了，因为很多都是重复的
+    8、热门电台不是space-between对齐，而是居中对齐
+        因为使用了flex对齐，暂时不知道有可以指定一行最多多少个元素的函数或参数，而且我觉得我设计成这样也不赖。。。。。。
+    9、js 未提供修改是否独家的功能
+        提供了，可以在js里面修改，懂得如何修改就行，。。。。。。
+*/
+
+/* 初始化 */
+* {
+    margin         : 0;
+    padding        : 0;
+    /* 取消下划线 */
+    text-decoration: none;
+    /* 取消ul项目符号 */
+    list-style     : none;
+    border         : none;
+    /* 取消点击时出现边框 */
+    outline        : none;
+}
+
+/* 全局 */
+html {
+    font: 13px/1.5 \5FAE\8F6F\96C5\9ED1, simsun, sans-serif;
+}
+
+/* 整个页面 */
+.mainPage {
+    height: 110vh;
+    width: 100%;
+    display        : flex;
+    /* 主轴为垂直方向,不换行 */
+    /* flex-grow: column nowrap; */
+    flex-flow      : nowrap column;
+    /* 让子元素中居中 */
+    align-items: center;
+}
+
+/* 工具类 */
+.hideSecond{
+    display: none;
+}
+.showSecond{
+    display: block;
+}
+/* 背景色改为蓝色 */
+.backgroundColorBlue{
+    background-color: #0c8ed9;
+    color: #ffffff !important;
+}
+/* 图片过渡效果 */
+.transition{
+    width: 0 !important;
+    height: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+/* **********头部：logo 搜索 登陆 */
+.header {
+    /* 不收缩,没有设置这个height相当于无效 */
+    flex-shrink: 0;
+    width          : 1000px;
+    height         : 78px;
+    display        : flex;
+    /* 让头部三个部分均已分配空白空间 */
+    justify-content: space-between;
+
+}
+/* 左侧 */
+.header .logo {
+    /* 图片大小 */
+    width     : 153px;
+    height    : 37px;
+    /* 不增长 */
+    flex-grow : 0;
+    /* logo是弹性元素，为自己设置对齐使用self */
+    align-self: center;
+}
+/* 中部搜索 */
+.header .search_wrapper {
+    width     : 300px;
+    height    : 36px;
+    /* 居中 */
+    align-self: center;
+    border    : 1px solid #cccccc;
+    /* 使搜索框居中 */
+    display   : flex;
+}
+/* 整个搜索框 */
+.header .search_wrapper .search_input {
+    display   : flex;
+    align-self: center;
+}
+/* 输入框 */
+.header .search_wrapper .search_input input {
+    width      : 249px;
+    height     : 24px;
+    /* 让光标进入搜索框即可被识别 */
+    padding: 5px 0;
+    padding-left: 17px;
+    /* 左边距 */
+    /* margin-left: 17px; */
+    /* 输入框居中 */
+    align-self : center;
+    /* 自己加上的，输入时光标变色 */
+    caret-color: red;
+}
+/* 搜索按钮框 */
+.header .search_wrapper .search_input .search_btn {
+    width          : 34px;
+    height         : 34px;
+    display        : flex;
+    /* 设置子元素弹性元素居中 */
+    justify-content: center;
+    align-items    : center;
+    /* 鼠标移入变小手 */
+    cursor         : pointer;
+}
+/* 搜索图标 */
+.header .search_wrapper .search_input .search_btn .search_icon {
+    width              : 16px;
+    height             : 16px;
+    /* 导入搜索按钮 */
+    background-image   : url("./image/search.png");
+    background-position: -40px -56px;
+}
+/* 鼠标移入搜索图案变化 */
+.header .search_wrapper .search_input .search_btn:hover .search_icon {
+    background-position: -40px -86px;
+}
+/* 搜索-文字 */
+.header .search_wrapper .search_input span {
+    /* 消失 */
+    display: none;
+}
+/* 右侧 */
+.header .topNav {
+    width           : 460px;
+    height          : 25px;
+    align-self      : center;
+    display         : flex;
+    /* 子元素居中 */
+    justify-content : space-between;
+}
+/* 4列表 */
+.header .topNav .bsU1 {
+    width     : 312px;
+    display   : flex;
+    /* 自己居中 */
+    align-self: center;
+}
+/* 单列表 */
+.header .topNav .bsU1 li {
+    padding: 0 10px;
+}
+/* 超链接 */
+.header .topNav .bsU1 li a {
+    color: #777777;
+}
+/* 鼠标移入 */
+.header .topNav .bsU1 a:hover{
+    color: #009af3;
+}
+/* 列表和登陆间的分割线 */
+.header .topNav .bsU1::after {
+    /* content: "|"; */
+    /* margin-left: 20px; */
+}
+/* 登陆 */
+.header .topNav .login_area {
+    width      : 110px;
+    height     : 30px;
+    align-self : center;
+    display    : flex;
+    align-items: center;
+}
+/* 登陆框 */
+.header .topNav .login_area #login_in {
+    background-color: #169AF3;
+    width           : 50px;
+    height          : 30px;
+    display         : flex;
+    /* 子元素居中 */
+    justify-content : center;
+    align-items     : center;
+    /* 鼠标移入出现小手 */
+    cursor          : pointer;
+}
+/* 鼠标移入登陆 */
+.header .topNav .login_area #login_in:hover{
+    background-color: rgb(21, 143, 225);
+}
+/* 登陆文字 */
+.header .topNav .login_area #login_in .login_btn {
+    color: #ffffff;
+}
+
+/* ***************导航条 */
+.navWrap{
+    width: 100%;
+    height: 54px;
+    background-color: #2c323b;
+    display: flex;
+    justify-content: center;
+}
+/* 导航条 */
+.nav{
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    /* 为二级菜单设置 */
+    position: relative;
+}
+/* 左侧 */
+.navWrap .nav .homeNav{
+    display: flex;
+    width: 437px;
+}
+/* 首页、榜单 */
+.navWrap .nav .homeNav li:nth-child(1), 
+.navWrap .nav .homeNav li:nth-child(2){
+    width: 92px;
+}
+/* 下载客户端 */
+.navWrap .nav .homeNav li:nth-child(3){
+    width: 140px;
+}
+/* 更多 */
+.navWrap .nav .homeNav li:nth-child(4){
+    width: 113px;
+    background-image: url("./image/arrowMored.png");
+    background-repeat: no-repeat;
+    background-position: 80px 24px;
+}
+.navWrap .nav .homeNav li.more:hover a{
+    background-image: url("./image/arrowMoreu.png");
+    background-repeat: no-repeat;
+    background-position: 80px 22px;
+}
+/* 列表超链接 */
+.navWrap .nav .homeNav li a{
+    font-size: 16px;
+    color: #dddddd;
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* 让文字居中 */
+    line-height: 54px;
+    text-align: center;
+}
+/* 鼠标移入列表超链接 */
+.navWrap .nav .homeNav li:hover, 
+.navWrap .nav .homeNav li:hover a{
+    color: #ffffff;
+    background-color: #0c8ed9;
+}
+/* 二级菜单 */
+.navWrap .nav .secondMenu{
+    /* 注意不在这里设置display：none */
+    position: absolute;
+    z-index: 999;
+    background-color: #2c323b;
+    top: 54px;
+    left: 324px;
+}
+/* 二级菜单项 */
+.navWrap .nav .secondMenu a{
+    width: 113px;
+    height: 36px;
+    font-size: 15px;
+    color: #bbbbbb;
+    /* 居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 二级菜单鼠标移入 */
+.navWrap .nav .secondMenu a:hover,
+.navWrap .nav .secondMenu a:hover li{
+    color: #ffffff;
+    background-color: #2d343d;
+}
+/* 右侧 */
+.navWrap .nav .subNav{
+    width: 444px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+/* 右侧列表 */
+.navWrap .nav .subNav li{
+    /* 留空间来放图标 */
+    padding-left: 20px;
+    /* 变小手 */
+    cursor:pointer;
+}
+/* 右侧超链接 */
+.navWrap .nav .subNav li a{
+    color: #bbbbbb;
+}
+/* 右侧超链接鼠标移入 */
+.navWrap .nav .subNav li:hover a{
+    color: #14a9ff;
+}
+/* begin-------  图标 */
+.navWrap .nav .subNav li:nth-child(1){
+    background-image: url("./image/sprite.png");
+    background-position: 0 -120px;
+}
+.navWrap .nav .subNav li:nth-child(1):hover{
+    /* 不动 */
+    /* background-position: 0 -102px; */
+    background-position: 0 -104px;
+}
+.navWrap .nav .subNav li:nth-child(2){
+    background-image: url("./image/sprite.png");
+    background-position: 0 -282px;
+}
+.navWrap .nav .subNav li:nth-child(2):hover{
+    /* background-position: 0 -246px; */
+    background-position: 0 -248px;
+}
+.navWrap .nav .subNav li:nth-child(3){
+    background-image: url("./image/sprite.png");
+    background-position: 0 -191px;
+}
+.navWrap .nav .subNav li:nth-child(3):hover{
+    /* background-position: 0 -173px; */
+    background-position: 0 -175px;
+}
+.navWrap .nav .subNav li:nth-child(4){
+    background-image: url("./image/agency.png");
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+}
+.navWrap .nav .subNav li:nth-child(4):hover{
+    background-image: url("./image/agency2.png");
+    /* background-position: 0 4px; */
+    background-position: 0 2px;
+}
+.navWrap .nav .subNav li:nth-child(5){
+    background-image: url("./image/sprite.png");
+    background-position: 0 -1308px;
+}
+.navWrap .nav .subNav li:nth-child(5):hover{
+    /* background-position: 0 -1289px; */
+    background-position: 0 -1291px;
+}
+.navWrap .nav .subNav li:nth-child(6){
+    background-image: url("./image/platform.png");
+    background-repeat: no-repeat;
+    background-position: 0 3px;
+}
+.navWrap .nav .subNav li:nth-child(6):hover{
+    background-image: url("./image/platform2.png");
+    /* background-position: 0 3px; */
+    background-position: 0 1px;
+}
+/* end-------  图标 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* *************轮播图 */
+.sliderWrap{
+    flex-shrink: 0;
+    width: 100%;
+    height: 445px;
+    position: relative;
+}
+/* 轮播图片 */
+.sliderWrap .banner{
+    height: 445px;
+    display: flex;
+    justify-content: center;
+}
+/* 图片列表 */
+.sliderWrap .banner ul{
+    width: 2048px;
+    position: relative;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+.sliderWrap .banner ul li{
+    width: 100%;
+    height: 445px;
+    position: absolute;
+    /* 这里设置的话，后面设置a的就无效了！！ */
+    /* z-index: 0; */
+}
+.sliderWrap .banner ul li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    opacity: 0;
+    transition: 1s;
+}
+.sliderWrap .banner ul li:nth-child(1) a{
+    /* 九宫格 */
+    /* background-position: center center; */
+    background: url("./image/sliderPage1.jpg") no-repeat center;
+    /* 第一张为默认显示, 网页加载后通过js修改*/
+    opacity: 1;
+    /* z-index: 0; */
+}
+.sliderWrap .banner ul li:nth-child(2) a{
+    background: url("./image/sliderPage2.jpg") no-repeat center;
+    /* z-index: 0; */
+}
+.sliderWrap .banner ul li:nth-child(3) a{
+    background: url("./image/sliderPage3.jpg") no-repeat center;
+    /* z-index: 0; */
+}
+/* 上一张/下一张 */
+.sliderWrap .sliderPrev,
+.sliderWrap .sliderNext{
+    position: absolute;
+    top: 50%;
+    margin-top: -60px;
+    z-index: 999;
+    width: 60px;
+    height: 120px;
+    text-indent:-99999em;
+}
+.sliderWrap .sliderPrev{
+    background: url("./image/sprite.png") 0 -755px;
+    left: 0;
+}
+.sliderWrap .sliderPrev:hover{
+    background-position: 0 -880px;
+}
+.sliderWrap .sliderNext{
+    background: url("./image/sprite.png") 0 -1130px;
+    right: 0;
+}
+.sliderWrap .sliderNext:hover{
+    background-position:0 -1005px;
+}
+/* 导航小点 */
+.sliderWrap .sliderPages{
+    width: 100%;
+    position: relative;
+    bottom: 80px;
+    z-index: 999;
+}
+.sliderWrap .sliderPages div{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.sliderWrap .sliderPages div a{
+    width: 12px;
+    height: 10px;
+    /* background-color: red; */
+    background-image: url("./image/sprite.png");
+    background-position: 0 -22px;
+    margin: 0 7px;
+    text-indent: -99999em;
+}
+/* 通过js设置了
+ .sliderWrap .sliderPages div a:hover{
+    background-position: 0 -37px;
+} */
+/* 下载条 */
+.sliderWrap .downloadBlur{
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    overflow: hidden;
+    bottom: 0;
+    z-index: 99;
+    background-color: rgba(0, 0, 0, .3);
+    /* 为子元素ul设置 */
+    display: flex;
+    justify-content: center;
+}
+.sliderWrap .downloadBlur .downloadThree{
+    width: 745px;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.sliderWrap .downloadBlur .downloadThree li{
+    font-size: 15px;
+    color: #ffffff;
+    padding-left: 30px;
+    cursor:pointer;
+    line-height: 35px;
+    height: 35px;
+}
+.sliderWrap .downloadBlur .downloadThree li:hover{
+    color: #ffffdf;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(1){
+    background: url("./image/pc.png") no-repeat 0 5px;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(1):hover{
+    background: url("./image/pc_hover.png") no-repeat 0 3px;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(2){
+    background: url("./image/mac.png") no-repeat 0 5px;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(2):hover{
+    background: url("./image/mac_hover.png") no-repeat 0 3px;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(3){
+    background: url("./image/andriod.png") no-repeat 0 5px;
+}
+.sliderWrap .downloadBlur .downloadThree li:nth-child(3):hover{
+    background: url("./image/andriod_hover.png") no-repeat 0 3px;
+}
+
+
+
+
+
+
+/* *****************内容************************* */
+
+
+
+
+
+
+
+
+/* **********歌单 */
+.subContentM{
+    margin-top: 40px;
+    flex-shrink: 0;
+    width: 1000px;
+    height: 390px;
+    /* overflow: hidden; */
+    display: flex;
+    /* 分两边 */
+    justify-content: space-between;
+
+}
+/* 精选歌单 */
+.subContentM .selectSongList{
+    width: 650px;
+    height: 385px;
+    /* 子类是标题和内容，无需弹性盒，开个定位就行 */
+    position: relative;
+}
+/* 标题 */
+.subContentM .selectSongList .itemTitle{
+    width: 100%;
+    height: 30px;
+    /* border-bottom: 30px solid transparent; */
+    margin-bottom: 30px;
+    /* 为“更多”设置 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* 精选歌单四个字 */
+.subContentM .selectSongList .itemTitle h3{
+    width: 120px;
+    height: 30px;
+    /* 字体消失 */
+    font-size: 0;
+    color: #555555;
+    background-color: rosybrown;
+    /* 官网使用图片代替字体.................. */
+    background-image: url("./image/selectlist.jpg");
+}
+/* 精选二字 */
+.subContentM .selectSongList .itemTitle h3 b{
+    /* 设置字体粗细，400等效normal */
+    font-weight: 400;
+    color: #009af3;
+}
+/* “更多超链接” */
+.subContentM .selectSongList .itemTitle a{
+    color: #999999;
+}
+.subContentM .selectSongList .itemTitle a:hover{
+    color: #009af3;
+}
+/* 内容 */
+.subContentM .selectSongList .itemContent{
+    /* 这里官网使用660，右边的图片隐藏了6像素,图片间隙看起来宽3个像素 */
+    /* width: 660px; */
+    /* 我不想采用！ */
+    width: 100%;
+    height: 325px;
+    /* 为个子元素：歌单设置 */
+    display: flex;
+    /* 向右换行 */
+    flex-flow: column wrap;
+    align-content: space-between;
+    /* 叠在一起，后面通过margin调整 */
+    /* justify-content: flex-start; */
+    justify-content: space-between;
+}
+/* c位 */
+.subContentM .selectSongList .itemContent .cptBig{
+    /* 修改c为元素凑整齐 */
+    /* 图片间距7像素 */
+    /* width: 319px; */
+    /* height: 325px; */
+    /* 牺牲非c位 */
+    width: 325px;
+    height: 325px;
+    /* background-color: black; */
+    flex-shrink: 0 0;
+    overflow: hidden;
+    position: relative;
+    /* 使用北京代替图片 */
+    background-image: url("./image/cpt1.jpg");
+    background-size: 325px 325px;
+}
+/* c位右上角信息 */
+.subContentM .selectSongList .itemContent .cptBig .cptT{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 152px;
+    height: 30px;
+    padding-right: 8px;
+    background-image: url("./image/cptTBg.png");
+    display: flex;
+    flex-direction: row;
+    /* 这个耽误了时间，奇怪了，最开始为什么没有生效..... */
+    justify-content: flex-end;
+    align-items: center;
+}
+/* c位右上角信息图标 */
+.subContentM .selectSongList .itemContent .cptBig .cptT .icon_select_icon {
+    /* flex:0 0; */
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -267px;
+}
+/* c位右上角信息图标播放数 */
+.subContentM .selectSongList .itemContent .cptBig .cptT .num {
+    /* flex:0 0; */
+    color: white;
+    font-size: 100%;
+}
+/* c位封面 */
+.subContentM .selectSongList .itemContent .cptBig img{
+    /* 不采用这种，使用背景图片的方式 */
+    display: none;
+}
+/* c位下排信息 */
+.subContentM .selectSongList .itemContent .cptBig .cptB {
+    background-color: rgba(0, 0, 0, .5);
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    bottom: 0;
+    right: 0;
+    color: #ffffff;
+    font-size: 14px;
+}
+/* 歌单类型名 */
+.subContentM .selectSongList .itemContent .cptBig .cptB .songListName{
+    padding-left: 12px;
+    margin-top: 4px;
+}
+/* 歌单创建者 */
+.subContentM .selectSongList .itemContent .cptBig .cptB .songListSinger{
+    padding-left: 12px;
+    color:#cfcfcf;
+}
+/* 盖子！！！ */
+.subContentM .selectSongList .itemContent .cptBig .cover {
+    /* 盖子先隐藏 */
+    visibility: hidden;
+    position: relative;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+}
+/* 鼠标移入时超链接 */
+/* 该超链接是跳转播放页 */
+.subContentM .selectSongList .itemContent .cptBig .cover a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+}
+/* 播放按钮 */
+.subContentM .selectSongList .itemContent .cptBig .cover .icon_play_s{
+    /* 文字消失 */
+    font-size: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 99;
+    bottom: 6px;
+    right: 6px;
+    width: 36px;
+    height: 36px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -401px;
+}
+/* 鼠标移入按钮时 */
+.subContentM .selectSongList .itemContent .cptBig .cover .icon_play_s:hover{
+    background-position: 0 -360px;
+}
+/* 鼠标移入歌单区域，盖子显示 */
+.subContentM .selectSongList .itemContent .cptBig:hover .cover{
+    visibility: visible;
+}
+
+/* 非c位 和c位的设置基本相同 */
+.subContentM .selectSongList .itemContent .cptMid{
+    /* 修改非c为凑整齐 */
+    width: 157px;
+    height: 160px;
+    /* 修改c位元素凑整齐 */
+    /* width: 160px; */
+    /* height: 160px; */
+    /* 不采用这种 */
+    /* width: 160px; */
+    /* height: 160px; */
+    /* 调整下间距，对应“叠在一起” */
+    /* margin-bottom: 2px; */
+
+    flex-shrink: 0 0;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+}
+/* 非c位的标题 */
+.subContentM .selectSongList .itemContent .cptMid .cptT{
+    position: absolute;
+    /* 改在图片上面 */
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 152px;
+    height: 30px;
+    padding-right: 8px;
+    background-image: url("./image/cptTBg.png");
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+/* 非c位图标 */
+.subContentM .selectSongList .itemContent .cptMid .cptT .icon_select_icon{
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -267px;
+}
+/* 非c位播放量 */
+.subContentM .selectSongList .itemContent .cptMid .cptT .num{
+    color: white;
+    font-size: 100%;
+}
+/* 非C位图片 */
+.subContentM .selectSongList .itemContent .cptMid img{
+    position: relative;
+    /* 图片位于底层 */
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+}
+/* 非c位歌单信息 */
+.subContentM .selectSongList .itemContent .cptMid .cptB{
+    position: absolute;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, .3);
+    color: #ffffff;
+    font-size: 14px;
+    /* 文字不换行 */
+    white-space: nowrap;
+}
+/* 非c为歌单名 */
+.subContentM .selectSongList .itemContent .cptMid .cptB .songListName{
+    padding-left: 12px;
+    margin-top: 4px;
+    width: 100px;
+    overflow: hidden;
+    /* 超出部分用...表示 */
+    text-overflow: ellipsis;    
+}
+/* 非c位歌单创建者 */
+.subContentM .selectSongList .itemContent .cptMid .cptB .songListSinger{
+    width: 100px;
+    padding-left: 12px;
+    color:#cfcfcf;
+    overflow: hidden;
+    /* 超出部分用...表示 */
+    text-overflow: ellipsis;    
+}
+/* 这个盖子的设置和前面的一摸一样的.......暂未合并 */
+/* 盖子 */
+.subContentM .selectSongList .itemContent .cptMid .cover{
+    visibility: hidden;
+    position: absolute;
+    /* 不设置会跑到下面看不见了！ */
+    top: 0;
+    left: 0;
+    z-index: 400;
+    width: 100%;
+    height: 100%;
+}
+/* 盖子里面的超链接 */
+.subContentM .selectSongList .itemContent .cptMid .cover a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+}
+/* 播放按钮 */
+.subContentM .selectSongList .itemContent .cptMid .cover .icon_play_s{
+    /* 文字消失 */
+    font-size: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 99;
+    bottom: 6px;
+    right: 6px;
+    width: 36px;
+    height: 36px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -401px;
+}
+/* 鼠标移入按钮时 */
+.subContentM .selectSongList .itemContent .cptMid .cover .icon_play_s:hover{
+    background-position: 0 -360px;
+}
+/* 鼠标移入歌单区域，盖子显示 */
+.subContentM .selectSongList .itemContent .cptMid:hover .cover{
+    visibility: visible;
+}
+/* end精选歌单 */
+
+/* 热门歌单 */
+.subContentM .hotSongList {
+    width: 320px;
+    height: 385px;
+}
+/* 标题 */
+.subContentM .hotSongList .itemTitle {
+    width: 320px;
+    height: 30px;
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    position: relative;
+    background-image: url("./image/hotlist.jpg");
+    background-repeat: no-repeat;
+    background-origin: 0 0;
+    display: flex;
+    justify-content: center;
+}
+/* 更多 */
+.subContentM .hotSongList .itemTitle a{
+    position: absolute;
+    line-height: 30px;
+    top: 0;
+    right: 0;
+    color: #999999;
+}
+/* 鼠标移入 */
+.subContentM .hotSongList .itemTitle a:hover{
+    color: #009af3;
+}
+/* 内容,包含三块 */
+.subContentM .hotSongList .itemContent {
+    width: 320px;
+    height: 325px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* 三大榜 */
+.subContentM .hotSongList .itemContent .listItem{
+    width: 320px;
+    height: 98px;
+    /* background-color: pink; */
+    /* overflow: hidden; */
+    position: relative;
+}
+/* 榜内均小手 */
+.subContentM .hotSongList .itemContent .listItem a{
+    width: 320px;
+    height: 98px;
+    /* 父类设了相对，这里这设置绝对吧 */
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+/* 榜内盖子  盖封面 */
+.subContentM .hotSongList .itemContent .listItem a .cover{
+    visibility: hidden;
+    width: 98px;
+    height: 98px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 12;
+    background-color: rgba(0, 0, 0, .3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 播放按钮 */
+.subContentM .hotSongList .itemContent .listItem a .cover .playBtn {
+    font-size: 0;
+    width: 36px;
+    height: 36px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -401px;
+}
+/* 移入播放按钮 */
+.subContentM .hotSongList .itemContent .listItem a .cover .playBtn:hover {
+    background-position: 0 -360px;
+}
+/* 移入榜单显示盖子 */
+.subContentM .hotSongList .itemContent .listItem a:hover .cover{
+    visibility: visible;
+}
+/* 设置向右箭头 */
+.subContentM .hotSongList .itemContent .listItem a > span{
+    width: 7px;
+    height: 14px;
+    position: absolute;
+    margin-top: -7px;
+    top: 50%;
+    right: 6px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -322px;
+}    
+/* 设置封面 */
+.subContentM .hotSongList .itemContent .listItem a img{
+    width: 98px;
+    height: 98px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10px;
+}
+/* 设置榜单项列表 */
+.subContentM .hotSongList .itemContent .listItem a .list{
+    width: 222px;
+    height: 98px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* 设置列表 */
+.subContentM .hotSongList .itemContent .listItem a .list dl{
+    flex-shrink: 0;
+    width: 200px;
+    height: 68px;
+}
+/* 设置列表标题 */
+.subContentM .hotSongList .itemContent .listItem a .list dl dt{
+    color: #333333;
+    font-size: 14px;
+    font-weight: 700;
+}
+/* 设置列表歌曲 */
+.subContentM .hotSongList .itemContent .listItem a .list dl dd{
+    color: #555555;
+    font-size: 14px;
+    /* 防止名字太长 */
+    width: 160px;
+    height: 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;  
+}
+/* end热门歌单 */
+
+
+
+
+
+
+
+
+/* 第二部分: 新歌首发、MV */
+.subContentMV{
+    margin-top: 40px;
+    width: 1000px;
+    height: 375px;
+    display: flex;
+    justify-content: space-between;
+}
+/* 左边 */
+.subContentMV .subContentMVLeft{
+    width: 650px;
+    height: 375px;
+    position: relative;
+}
+/* 左边标题 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle {
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px solid #cccccc;
+    display: flex;
+    /* 为全部播放设置 */
+    position: relative;
+}
+/* 标题右边新歌首发 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleL{
+    width: 120px;
+    height: 30px;
+    background-image: url("./image/newlist.jpg");
+    font-size: 0
+}
+/* 标题中间的语言类型 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleM{
+    width: 184px;
+    height: 30px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/*  */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleM li{
+    color: #000000;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleM li a{
+    color: inherit;
+    font-size: 14px;
+}
+/* 通过js设置 */
+/* .subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleM li a:hover{
+    color: #009af3;
+} */
+/* 标题右边全部播放 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR{
+    width: 89px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid #dbdbdb;
+    border-radius: 2px;
+    cursor: pointer;
+}
+/* 标题图标 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR span{
+    font-size: 0;
+    position: absolute;
+    display: block;
+    width: 12px;
+    height: 14px;
+    margin-top: -6px;
+    top: 50%;
+    left: 10px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -303px;
+}
+/* 标题全部播放文字 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR p{
+    color: #555555;
+    display: block;
+    position: absolute;
+    line-height: 30px;
+    right: 10px;
+}
+/* 标题鼠标移入 */
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR:hover span{
+    background-position: 0 -341px;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR:hover{
+    border: #009af3 1px solid ;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftTitle .subContentMVLeftTitleR:hover p{
+    color: #009af3;
+}
+/* 左边内容 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent {
+    width: 650px;
+    height: 280px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+}
+/* 内容 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong{
+    position: absolute;
+    top: 0;
+    width: 650px;
+    height: 280px;
+    /* 超过8个隐藏 */
+}
+/* 内容单框 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li {
+    width: 650px;
+    height: 35px;
+    position: relative;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+/* 内容框超链接 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li a{
+    width: 650px;
+    height: 35px;
+    position: absolute;
+    z-index: 20;
+    top: 0;
+    right: 0;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li:hover a{
+    background-color: #f5f8fb;
+}
+/* 内容歌曲名 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li p{
+    line-height: 35px;
+    margin-left: 10px;
+    color: #000000;
+    z-index: 22;
+    /* 鼠标移入不要是I */
+    cursor: pointer;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li:hover p{
+    color: #009af3;
+}
+/* 伪元素可以设置logo，但是这处不要使用 */
+/* 使用伪元素设置独家logo */
+/* 内容是否独家 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .exclusive{
+    /* content: ""; */
+    display: inline-block;
+    margin-left:12px;
+    width: 21px;
+    height: 12px;
+    background-image: url("./image/first.png");
+    background-repeat: no-repeat;
+    /* 设为none即非独家 */
+    /* display: none; */
+}
+/* 内容播放 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .play{
+    display: inline-block;
+    width: 12px;
+    height: 14px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -303px;
+    position: absolute;
+    margin-top: -6px;
+    top: 50%;
+    right: 79px;
+    z-index: 30;
+    cursor: pointer;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .play:hover{
+    background-position: 0 -341px;
+}
+/* 内容下载 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .download{
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-image: url("./image/icon_splice.png");
+    background-position: -90px 0;
+    position: absolute;
+    margin-top: -6px;
+    top: 50%;
+    right: 50px;
+    z-index: 30;
+    cursor: pointer;
+}
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .download:hover{
+    background-position: -90px -30px;
+}
+/* 内容时长 */
+.subContentMV .subContentMVLeft .subContentMVLeftContent .subContentMVLeftContentSong li .duration{
+    display: inline-block;
+    position: absolute;
+    z-index: 30;
+    right: 10px;
+    color: #333333;
+}
+/* 内容 四种语言 */
+#ChineseSong {
+    display: none;
+}
+#English{
+    display: none
+}
+#Korean{
+    display: none
+}
+#Japan{
+    display: none
+}
+/* 左边页数 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage{
+    width: 60px;
+    height: 18px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* 页数左箭头 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage .leftPage{
+    width: 6px;
+    height: 9px;
+    background-image: url("./image/pageChange.jpg");
+    background-position: 0 0;
+    cursor: pointer;
+}
+/* 通过JS修改 */
+/* .subContentMV .subContentMVLeft .subContentMVLeftPage .leftPage:hover{
+    background-position: 0 -14px;
+} */
+/* 页数-当前 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage .nowPage{
+    color: #8d8d8d;
+    width: 20px;
+    text-align: right;
+}
+/* 页数斜杠符号 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage .symbal{
+    color: #8d8d8d;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    width: 8px;
+}
+/* 页数-总页数 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage .allPage{
+    color: #8d8d8d;
+    width: 20px;
+    text-align: left;
+}
+/* 页数右箭头 */
+.subContentMV .subContentMVLeft .subContentMVLeftPage .rightPage{
+    width: 6px;
+    height: 9px;
+    background-image: url("./image/pageChange.jpg");
+    background-position: -13px 0;
+    cursor: pointer;
+}
+/* 通过js修改 */
+/* .subContentMV .subContentMVLeft .subContentMVLeftPage .rightPage:hover{
+    background-position: -13px -14px;
+} */
+
+
+/* 右边 */
+.subContentMV .subContentMVRight{
+    width: 320px;
+    height: 375px;
+}
+/* 标题 */
+.subContentMV .subContentMVRight .title{
+    width: 320px;
+    height: 50.5px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+/* 标题推荐更多 */
+.subContentMV .subContentMVRight .title .recommendMore{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 30px;
+    background-image: url("./image/albumlist.jpg");
+    font-size: 0;
+}
+/* 标题更多 */
+.subContentMV .subContentMVRight .title .more a{
+    color: #999999;
+    line-height: 30px;
+}
+.subContentMV .subContentMVRight .title .more a:hover{
+    color: #009af3;
+}
+/* 内容 */
+.subContentMV .subContentMVRight .content {
+    width: 320px;
+    /* 和右边的边框对齐 */
+    height: 324.5px;
+    position: relative;
+}
+/* 内容c位 */
+.subContentMV .subContentMVRight .content .main{
+    width: 320px;
+    height: 175px;
+    position: absolute;
+    top: 0;
+    background-image: url("./image/MVmain.jpg");
+}
+/* 内容c位超链接 */
+.subContentMV .subContentMVRight .content .main a{
+    width: 320px;
+    height: 175px;
+    position: absolute;
+    z-index: 20;
+}
+/* 内容c位盖住 */
+.subContentMV .subContentMVRight .content .main a .cover{
+    width: 320px;
+    height: 175px;
+    position: absolute;
+    z-index: 21;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, .3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.subContentMV .subContentMVRight .content .main a .cover .play{
+    width: 48px;
+    height: 48px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -542px;
+}
+.subContentMV .subContentMVRight .content .main a .cover .play:hover{
+    background-position: 0 -489px;
+}
+.subContentMV .subContentMVRight .content a:hover .cover{
+    visibility: visible;
+}
+/* 内容c位信息 */
+.subContentMV .subContentMVRight .content .main a .info{
+    width: 320px;
+    height: 50px;
+    position: absolute;
+    z-index: 30;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.subContentMV .subContentMVRight .content .main a .info .name{
+    margin-left: 10px;
+    width: 300px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+    color: #ffffff;
+    font-size: 15px;
+}
+.subContentMV .subContentMVRight .content .main a .info .author{
+    margin-left: 10px;
+    color: #cfcfcf;
+    font-size: 14px;
+}
+
+/* 内容非c位整个整个 */
+.subContentMV .subContentMVRight .content .ordinary{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    height: 144.5px;
+    display: flex;
+    /* 让两个MV贴在两边 */
+    justify-content: space-between;
+}
+/* 内容非c位左右 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent{
+    width: 145px;
+    height: 125px;
+    cursor: pointer;
+    /* 为盖子开启定位 */
+    position: relative;
+}
+/* 非c封面右 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentPictureRight{
+    width: 145px;
+    height: 85px;
+    background-image: url("./image/MVright.jpg");
+    background-size: 145px 85px;
+}
+/* 非c封面左 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentPictureLeft{
+    width: 145px;
+    height: 85px;
+    background-image: url("./image/MVleft.jpg");
+    background-size: 145px 85px;
+}
+/* 盖子 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentCover{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 145px;
+    height: 85px;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 30;
+    /* 让按钮居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+/* 移入内容区域，盖子出现 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent:hover .ordinaryContentCover{
+    visibility: visible;
+}
+/* 播放按钮 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentCover .ordinaryContentCoverPlay{
+    width: 36px;
+    height: 36px;
+    background-image: url("./image/sprite.png");
+    /* 官网的播放按钮有点大，我改了 */
+    /* background-position: 0 -542px; */
+    background-position: 0 -401px;
+}
+/* 鼠标移入播放按钮 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentCover .ordinaryContentCoverPlay:hover{
+    background-position: 0 -360px;
+}
+/* 底部信息整个 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentInfo{
+    width: 145px;
+    height: 43px;
+    /* 与封面有一点距离 */
+    padding-top: 5px;
+}
+/* 底部信息标题 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentInfo .ordinaryContentInfoTitle{
+    width: 145px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+    font-size: 14px;
+    color: #444444;
+}
+/* 鼠标移入内容区变色 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent:hover .ordinaryContentInfo .ordinaryContentInfoTitle{
+    color: #009af3;
+}
+/* 底部信息作者 */
+.subContentMV .subContentMVRight .content .ordinary .ordinaryContent .ordinaryContentInfo .ordinaryContentInfoAuthor{
+    color: #777777;
+    font-size: 12px;
+}
+
+
+
+
+
+/* 第三部分：热门电台 */
+.hotRadio{
+    margin-top: 30px;
+    width: 1000px;
+    height: 355px;
+    display: flex;
+    justify-content: space-between;
+}
+/* 左边 */
+.hotRadio .hotRadioLeft{
+    width: 650px;
+    height: 355px;
+}
+/* 左边标题 */
+.hotRadio .hotRadioLeft .hotRadioLeftTitle{
+    width: 650px;
+    height: 30px;
+    margin-bottom: 30px;
+    background: url("./image/hotredio.jpg") no-repeat;
+}
+/* 左边标题更多 */
+.hotRadio .hotRadioLeft .hotRadioLeftTitle a{
+    display: block;
+    color: #555555;
+    text-align: end;
+    line-height: 30px;
+}
+.hotRadio .hotRadioLeft .hotRadioLeftTitle a:hover{
+    color: #009af3;
+}
+/* 左边内容 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent{
+    width: 650px;
+    height: 295px;
+}
+/* 电台列表 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+/* 单电台 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li{
+    width: 125px;
+    height: 128px;
+    position: relative;
+    /* 让封面居中 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 小手 */
+    cursor: pointer;
+    /* 子元素文字颜色设为了继承 */
+    color: #333333;
+    /* 上下电台间距 */
+    margin-bottom: 20px;
+}
+/* 移入电台文字变色 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li:hover {
+    color: #009af3;
+}
+/* 电台封面 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li img{
+    width: 100px;
+    height: 100px;
+}
+/* 盖子 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li .hotRadioLeftContentCover{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: rgba(0, 0, 0, .3);
+    background-image: url("./image/radio.png");
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+/* 盖子的播放按钮 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li .hotRadioLeftContentCover .hotRadioLeftContentCoverPlay{
+    width: 42px;
+    height: 42px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -442px;
+}
+/* 移入电台盖子出现 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li:hover .hotRadioLeftContentCover{
+    /* visibility: visible; */
+    /* 采用继承也可以 */
+    visibility: inherit;
+}
+/* 电台文字 */
+.hotRadio .hotRadioLeft .hotRadioLeftContent ul li p{
+    margin-top: 8px;
+    color: inherit;
+}
+
+
+/* 右边 */
+.hotRadio .hotRadioRight{
+    width: 325px;
+    height: 355px;
+}
+/* 右边标题 */
+.hotRadio .hotRadioRight .hotRadioRighttTitle{
+    width: 325px;
+    height: 30px;
+    margin-bottom: 30px;
+    background: url("./image/hotsinger.jpg") no-repeat;
+}
+/* 歌手类型集合 */
+.hotRadio .hotRadioRight .hotRadioRighttTitle .hotRadioRighttTitleType{
+    margin-left: 135px;
+    width: 175px;
+    height: 30px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.hotRadio .hotRadioRight .hotRadioRighttTitle .hotRadioRighttTitleType .hotRadioRighttTitleTypeLi{
+    color: #000000;
+}
+/* “更多”特殊处理 */
+.hotRadio .hotRadioRight .hotRadioRighttTitle .hotRadioRighttTitleType .hotRadioRighttTitleTypeLi:last-child{
+    color: #999999;
+}
+/* 鼠标移入 js调用 */
+/* .hotRadio .hotRadioRight .hotRadioRighttTitle .hotRadioRighttTitleType .hotRadioRighttTitleTypeLi:hover{
+    color: #009af3;
+} */
+/* 右边内容 */
+.hotRadio .hotRadioRight .hotRadioRightContent{
+    width: 325px;
+    height: 270px;
+}
+/* 歌手两大图部分 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain {
+    width: 325px;
+    height: 160px;
+    display: flex;
+    justify-content: space-between;
+}
+/* 歌手单大图框 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain .hotRadioRightContentMainSinger{
+    width: 160px;
+    height: 160px;
+    position: relative;
+    cursor: pointer;
+}
+/* 灰色背景 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain .hotRadioRightContentMainSinger .hotRadioRightContentMainSingerGray{
+    width: 160px;
+    height: 160px;
+    position: absolute;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, .0);
+}
+/* 鼠标移入变灰 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain .hotRadioRightContentMainSinger:hover .hotRadioRightContentMainSingerGray{
+    background-color: rgba(0, 0, 0, .3);
+}
+/* 封面 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain .hotRadioRightContentMainSinger img{
+    z-index: 10;
+    width: 160px;
+    height: 160px;
+}
+/* 歌手名字 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentMain .hotRadioRightContentMainSinger p{
+    position: absolute;
+    z-index: 30;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    color: #ffffff;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+/* 歌手三小图部分 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle{
+    width: 325px;
+    height: 105px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+/* 歌手单个小图 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle .hotRadioRightContentLittleSinger {
+    width: 105px;
+    height: 105px;
+    position: relative;
+    cursor: pointer;
+}
+/* 灰色背景 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle .hotRadioRightContentLittleSinger .hotRadioRightContentLittleSingerGray{
+    width: 105px;
+    height: 105px;
+    position: absolute;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, .0);
+}
+/* 鼠标移入变灰 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle .hotRadioRightContentLittleSinger:hover .hotRadioRightContentLittleSingerGray{
+    background-color: rgba(0, 0, 0, .3);
+}
+/* 封面 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle .hotRadioRightContentLittleSinger img{
+    z-index: 10;
+    width: 105px;
+    height: 105px;
+}
+/* 歌手名 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentLittle .hotRadioRightContentLittleSinger p{
+    position: absolute;
+    z-index: 30;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    color: #ffffff;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+/* 底部导航点 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentPoint{
+    margin-top: 10px;
+    width: 325px;
+    height: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 三个导航点 */
+.hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentPoint span{
+    width: 6px;
+    height: 8px;
+    margin: 0 10px;
+    background-image: url("./image/sprite.png");
+    background-position: 0 -10px;
+    cursor:pointer;
+}
+/* 通过js修改 */
+/* .hotRadio .hotRadioRight .hotRadioRightContent .hotRadioRightContentPoint span:hover{
+    background-position: 0 0;
+    background-position: 0 1px;
+} */
+
+/* **************使用类库来切换歌手*********************** */
+/* 大图 */
+/* 华语 */
+.coverSingerTop1{
+    padding: 80px;
+    background-image: url("./image/singer/h11.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop2{
+    padding: 80px;
+    background-image: url("./image/singer/h12.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop3{
+    padding: 80px;
+    background-image: url("./image/singer/h21.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop4{
+    padding: 80px;
+    background-image: url("./image/singer/h22.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop5{
+    padding: 80px;
+    background-image: url("./image/singer/h31.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop6{
+    padding: 80px;
+    background-image: url("./image/singer/h32.jpg");
+    background-size: 160px 160px;
+}
+/* 欧美 */
+.coverSingerTop21{
+    padding: 80px;
+    background-image: url("./image/singer/o11.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop22{
+    padding: 80px;
+    background-image: url("./image/singer/o12.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop23{
+    padding: 80px;
+    background-image: url("./image/singer/o21.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop24{
+    padding: 80px;
+    background-image: url("./image/singer/o22.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop25{
+    padding: 80px;
+    background-image: url("./image/singer/o31.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop26{
+    padding: 80px;
+    background-image: url("./image/singer/o32.jpg");
+    background-size: 160px 160px;
+}
+/* 日韩 */
+.coverSingerTop31{
+    padding: 80px;
+    background-image: url("./image/singer/r11.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop32{
+    padding: 80px;
+    background-image: url("./image/singer/r12.jpg");
+    background-size: 160px 160px;
+}
+/* 更多 */
+.coverSingerTop41{
+    padding: 80px;
+    background-image: url("./image/singer/g11.jpg");
+    background-size: 160px 160px;
+}
+.coverSingerTop42{
+    padding: 80px;
+    background-image: url("./image/singer/g12.jpg");
+    background-size: 160px 160px;
+}
+/* ************************* */
+/* 小图 */
+/* 华语 */
+.coverSingerB1{
+    padding: 52.5px;
+    background-image: url("./image/singer/h13.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB2{
+    padding: 52.5px;
+    background-image: url("./image/singer/h14.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB3{
+    padding: 52.5px;
+    background-image: url("./image/singer/h15.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB4{
+    padding: 52.5px;
+    background-image: url("./image/singer/h23.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB5{
+    padding: 52.5px;
+    background-image: url("./image/singer/h24.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB6{
+    padding: 52.5px;
+    background-image: url("./image/singer/h25.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB7{
+    padding: 52.5px;
+    background-image: url("./image/singer/h33.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB8{
+    padding: 52.5px;
+    background-image: url("./image/singer/h34.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB9{
+    padding: 52.5px;
+    background-image: url("./image/singer/h35.jpg");
+    background-size: 105px 105px;
+}
+/* 欧美 */
+.coverSingerB21{
+    padding: 52.5px;
+    background-image: url("./image/singer/o13.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB22{
+    padding: 52.5px;
+    background-image: url("./image/singer/o14.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB23{
+    padding: 52.5px;
+    background-image: url("./image/singer/o15.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB24{
+    padding: 52.5px;
+    background-image: url("./image/singer/o23.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB25{
+    padding: 52.5px;
+    background-image: url("./image/singer/o24.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB26{
+    padding: 52.5px;
+    background-image: url("./image/singer/o25.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB27{
+    padding: 52.5px;
+    background-image: url("./image/singer/o33.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB28{
+    padding: 52.5px;
+    background-image: url("./image/singer/o34.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB29{
+    padding: 52.5px;
+    background-image: url("./image/singer/o35.jpg");
+    background-size: 105px 105px;
+}
+/* 日韩 */
+.coverSingerB31{
+    padding: 52.5px;
+    background-image: url("./image/singer/r13.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB32{
+    padding: 52.5px;
+    background-image: url("./image/singer/r14.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB33{
+    padding: 52.5px;
+    background-image: url("./image/singer/r15.jpg");
+    background-size: 105px 105px;
+}
+/* 更多 */
+.coverSingerB41{
+    padding: 52.5px;
+    background-image: url("./image/singer/g13.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB42{
+    padding: 52.5px;
+    background-image: url("./image/singer/g14.jpg");
+    background-size: 105px 105px;
+}
+.coverSingerB43{
+    padding: 52.5px;
+    background-image: url("./image/singer/g15.jpg");
+    background-size: 105px 105px;
+}
+
+/* 算了，意思意思就行，没必要全部都换。。。。。。。。 */
+
+
+
+
+
+
+
+
+
+/* 友情链接 */
+.blogroll{
+    margin-top: 40px;
+    width: 1000px;
+    /* height: 400px; */
+}
+/* 友情链接标题 */
+.blogroll .blogrollTitle{
+    width: 1000px;
+    height: 30px;
+    margin-bottom: 30px;
+    background-image: url("./image/friendLink.jpg");
+    background-repeat: no-repeat;
+}
+/* 更多 */
+.blogroll .blogrollTitle a{
+    display: block;
+    text-align: end;
+    line-height: 30px;
+    color: #999999;
+}
+.blogroll .blogrollTitle a:hover{
+    color: #009af3;
+}
+/* 内容链接 */
+.blogroll .blogrollContent{
+    width: 1000%;
+}
+.blogroll .blogrollContent ul {
+    width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.blogroll .blogrollContent ul li{
+    width: 125px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+    color: #555555;
+}
+.blogroll .blogrollContent ul li a{
+    color: inherit;
+}
+.blogroll .blogrollContent ul li a:hover{
+    color: #009af3;
+}
+
+
+
+
+
+
+
+/* 底部信息 */
+footer{
+    margin-top: 40px;
+    padding-bottom: 60px;
+    width: 100%;
+    background-color: #2c323b;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #b1b3b9;
+}
+footer a{
+    color: #b1b3b9;
+}
+footer a:hover{
+    color: #009af3;
+}
+/* 相关链接 */
+footer .links{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #77777777;
+    margin-bottom: 10px;
+}
+footer .links a{
+    /* 可以设置边框，也可以设置padding */
+    /* border-left: 15px solid rebeccapurple; */
+    /* border-right: 15px solid rebeccapurple; */
+    /* 不收缩 */
+    flex-shrink: 0;
+    padding: 0 10px;
+    box-sizing: border-box;
+    /* 模拟分割线 */
+    height: 14px;
+    line-height: 14px;
+    border-right: 2px solid #999999;
+}
+footer .links a:last-child{
+    border: none;
+}
+footer p{
+    line-height: 2;
+    white-space: nowrap;
+}
+#footerP1 img {
+    margin-left: -11px;
+    width: 0;
+    height: 0;
+    padding: 8px;
+    background-image: url("./image/footer_icon.png");
+    vertical-align: text-bottom;
+}
+#footerP2 img{
+    width: 0;
+    height: 0;
+    padding: 8px;
+    background-image: url("//www.kugou.com/common/images/icon_yuewangga1.png");
+    vertical-align: text-bottom;
+}
+
+
+
+
+/* 回到顶部箭头 */
+#returnUp{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    z-index: 9999;
+    border-radius: 6px;
+    background-image: url("./image/scrollTop1.png");
+    /* 默认是隐藏的 */
+    visibility: hidden;
+}
+#returnUp:hover{
+    background-image: url("./image/scrollTop2.png");
+}
+#returnUp a{
+    display: block;
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+
+
+
+/* 弹出框 */
+#popup{
+    width: 150px;
+    height: 0px;
+    position: fixed;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, .3);
+    color: #ffffff;
+    text-align: center;
+    font-size: 15px;
+    line-height: 80px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    transition: 0.1s;
+    /* 别忘记了这个，不然文字还是在的。。。。 */
+    overflow: hidden;
+    /* display: none; */
+}
