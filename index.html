@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linhieng</title>
+    <!-- document.title -->
+    <script>
+        let defaultTitle
+        window.onfocus = function () {
+            document.title = '⁄(⁄⁄•⁄ω⁄•⁄⁄)⁄被看见了'
+            defaultTitle = setTimeout(() => {
+                document.title = 'Linhieng'
+            }, 5000);
+        }
+        window.onblur = function () {
+            clearTimeout(defaultTitle)
+            document.title = 'φ(>ω<*) 看不见我！'
+        }
+    </script>
+    
     <style>
 
         *{
