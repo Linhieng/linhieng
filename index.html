@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linhieng</title>
+    <script>
+        if (/Android|webOS|iPhone|iPod|BlackBerry|iPad/i.test(navigator.userAgent)) {
+            alert('建议使用PC端浏览')
+        } 
+    </script>
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/video.css">
+    <link rel="stylesheet" href="./css/main-page.css">
+    
     <!-- document.title -->
     <script>
         let defaultTitle
@@ -18,160 +29,34 @@
             document.title = 'φ(>ω<*) 看不见我！'
         }
     </script>
-    
-    <style>
-
-        *{
-            /* 禁止双击变蓝 */
-            user-select: none;
-            margin: 0;  
-            padding: 0;
-            box-sizing: border-box;
-            color: #ffffff;
-            text-decoration-line: none;
-        }
-
-        a{
-            transition: 0.3s;
-        }
-        a:hover{
-            color: skyblue;
-        }
 
 
-        /* 背景图片 */
-        .mainPage{
-            width: 100vw;
-            height: 100vh;
-            background-image: url("./img/redBlack.jpg");
-            background-size: 100% 100%;
-            position: relative;
-            z-index: 0;
-        }
-        /* 蒙版 */
-        .masking{
-            display: block;
-            position: absolute;
-            z-index: 10;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color:black;
-            transition: 2s;
-        }
-
-        /* 内容框 */
-        .content{
-            width: 678px;
-            height: 210px;
-            height: 0px;
-            transition: 1s;
-            border-top: 1px solid #ffffff;
-            border-bottom: 1px solid #ffffff;
-            z-index: 20;
-        }
-
-        /* 内容文本框 */
-        .contentText{
-            width: 84%;
-            height: 60%;
-            color: #ffffff;
-            position: relative;
-            /* background-color: red; */
-            cursor: default;;
-        }
-
-        .contentText p:nth-child(1){
-            font-size: 36px;
-            position: absolute;
-            top: 10px;
-            cursor: pointer;
-            transition: 1s;
-            opacity: 0;
-        }
-        .contentText p:nth-child(2){
-            font-size: 15px;
-            position: absolute;
-            bottom: 20px;
-            transition: 1s;
-            opacity: 0;
-        }
-        .contentText p:nth-child(3){
-            font-size: 15px;
-            position: absolute;
-            bottom: -5px;
-            color: #dfdfdf;
-            transition: 0.5s;
-            opacity: 0;
-        }
-
-        
-        /* 工具类 */
-        /* 开启弹性盒并让子元素居中 */
-        .flexCenter {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-    </style>
-
-    <script>
-
-        
-        window.onload = function(){
-            // 背景黑色
-            var masking = document.getElementById("masking");
-            var p = document.getElementsByTagName("p");
-            var content = document.getElementById("content");
-            var translate = document.getElementById("translate");
-            var oneSentence = document.getElementById("oneSentence");
-            
-            // 加载动画
-            setTimeout(function(){
-                // 字体渐显
-                for (let i = 0; i < p.length-1; i++) {
-                    p[i].style.opacity = "1";
-                }
-                content.style.height = "210px";
-                setTimeout(function(){
-                    // masking.style.backgroundColor = " rgba(71, 142, 162, 0.3)";
-                    masking.style.backgroundColor = " rgba(71, 142, 162, 0)";
-                },800);
-            }, 500);
-
-            oneSentence.onmousemove = function(){
-                translate.style.opacity = "1";
-            };
-            oneSentence.onmouseleave = function(){
-                translate.style.opacity = "";
-            };
-        }
-    </script>
 </head>
-<body>
-    <!-- bilibili -->
-    <div id="video" style="width: 100%;height: 100vh;overflow: hidden;position: absolute;top: 0;left: 0;"><video src="./video/2021bnj.m4s" autoplay muted loop style="width: 100%;position: absolute;bottom: -50px;left: 0;z-index: -999;"></video></div>
-    
-    <!-- 全屏，只占一页 -->
 
-    <!-- 背景 -->
-    <div class="mainPage flexCenter">
-        <!-- 蒙版 -->
-        <div class="masking", id="masking"></div>
-        <!-- 内容框 -->
-        <div class="content flexCenter" id="content">
-            <!-- 文字 -->
-            <div class="contentText flexCenter">
-                <!-- <p><a href="./project/kugou/index.html">29 Jan.2021</a></p> -->
-                <p><a href="./project/kugou/index.html">10 Feb.2021</a></p>
-                <!-- <p id="oneSentence">I'm just afraid that if I died today, that my life would've amounted to nothing.</p> -->
-                <p id="oneSentence">You have a whole life ahead of you.</p>
-                <!-- <p id="translate">我只是怕某天死了，我的生命却一无所有。#《心灵奇旅》</p> -->
-                <p id="translate">你的人生还长着呢。#《少年派的奇妙漂流》</p>
-            </div>
+<body>
+    <!-- 奇特的特效 -->
+    <script src="./js/specific-background.js"></script>
+
+    <div id="main-page" class="flexCenter">
+        <div id="cover"></div>
+
+        <div id="video">
+            <video src="./video/2021bnj.m4s" autoplay muted loop></video>
+        </div>
+
+        <div class="text flexCenter">
+            <p><a title="会打开新网页" href="./project/kugou/index.html" target="_blank"> The Lunar New Year's Day </a></p>
+            <!-- <p title="你的人生还长着呢。#《少年派的奇妙漂流》" id="oneSentence">You have a whole life ahead of you.</p> -->
+            <p id="oneSentence">You have a whole life ahead of you.</p>
+            <p id="translate">你的人生还长着呢。#《少年派的奇妙漂流》</p>
+        
         </div>
     </div>
+
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/main-page.js"></script>
+
 </body>
+
 </html>
