@@ -1,0 +1,204 @@
+#header {
+    width           : 100%;
+    height          : 140px;
+    background-color: #fff;
+
+    .w1190 {
+        position: relative;
+        height  : 140px;
+
+        .logo {
+            position           : absolute;
+            top                : 10px;
+            left               : 0;
+            width              : 190px;
+            height             : 120px;
+            background-image   : url('../images/logoSprite.png');
+            background-position: 0 0;
+            background-clip    : 190px 120px;
+
+            .mouseMove {
+                display   : block;
+                opacity   : 0;
+                transition: 0.3s;
+                margin    : 0 auto;
+                width     : 134px;
+                height    : 120px;
+
+                background-color: #fff;
+                background-size : auto 100%;
+                position        : relative;
+
+                div {
+                    opacity   : 0;
+                    transition: 0.3s;
+
+                    p {
+                        &:nth-of-type(1) {
+                            width      : max-content;
+                            height     : 20px;
+                            line-height: 20px;
+                            font-size  : 16px;
+                            color      : #000;
+                            font-weight: bold;
+                            position   : absolute;
+                            top        : 17px;
+                            left       : 50%;
+                            transform  : translateX(-50%);
+                        }
+
+                        &:nth-of-type(2) {
+                            width           : 70px;
+                            height          : 25px;
+                            line-height     : 25px;
+                            border-radius   : 13px;
+                            text-align      : center;
+                            color           : #fff;
+                            font-size       : 14px;
+                            background-color: #ffd07d;
+                            position        : absolute;
+                            bottom          : 35px;
+                            left            : 50%;
+                            transform       : translateX(-50%);
+                        }
+                    }
+                }
+            }
+        }
+
+        .search {
+            position: absolute;
+            top     : 25px;
+            left    : 260px;
+            width   : 546px;
+            height  : 32px;
+            outline : 2px solid #e2231a;
+
+            input {
+                outline     : 0;
+                border      : 0;
+                padding-left: 20px;
+                width       : 450px;
+                height      : 20px;
+                margin      : 6px 0;
+                caret-color : #e2231a;
+            }
+
+            .icon {
+                position        : absolute;
+                top             : 0;
+                right           : 0;
+                display         : block;
+                width           : 58px;
+                height          : 32px;
+                background-color: #e2231a;
+                color           : #fff;
+                font-size       : 20px;
+                text-align      : center;
+                line-height     : 32px;
+
+                &:hover {
+                    background-color: #c81623;
+                }
+            }
+
+            .commend {
+                position  : absolute;
+                margin-top: 5px;
+                top       : 100%;
+
+                a {
+                    color  : #999;
+                    padding: 0 2px;
+                }
+
+                a:hover {
+                    color: #e2231a;
+                }
+
+                .hot {
+                    color: #e2231a;
+                }
+            }
+
+
+        }
+
+        .shopCar {
+            position   : absolute;
+            top        : 23px;
+            right      : 230px;
+            width      : 100px;
+            height     : 36px;
+            border     : 1px solid #eee;
+            color      : #e1251b;
+            font-size  : 14px;
+            line-height: 36px;
+            text-align : center;
+            user-select: none;
+            cursor     : pointer;
+
+            &:hover {
+                border: 1px solid #e1251b;
+            }
+        }
+
+        .nav {
+            width    : 790px;
+            padding-left: 4px;
+            height   : 35px;
+            position : absolute;
+            bottom   : 0;
+            left     : 200px;
+            display  : flex;
+            flex-wrap: nowrap;
+
+            a {
+                flex       : 0 0 auto;
+                font-size  : 15px;
+                line-height: 35px;
+                color      : #333;
+                width      : max-content;
+                margin     : 0 11px;
+                &:hover {
+                    color: #e2231a;
+                }
+            }
+
+            .red {
+                font-weight: bold;
+                color      : #e2231a;
+            }
+
+            .two {
+                display: block;
+                margin    : 0;
+                width     : 68px;
+                text-align: center;
+                height: 35px;
+                position: relative;
+                overflow: hidden;
+                p {
+                    width: 68px;
+                    height: 35px;
+                    position: absolute;
+                    top: 0;
+                    // transform: translateY(100%);
+                    transform: translateY(0);
+                }
+                i {
+                    display: block;
+                    width: 68px;
+                    height: 22px;
+                    position: absolute;
+                    top: 6px;
+                    background-image: url('../images/fiveYear.png');
+                    background-size: 68px 22px;
+                    background-repeat: no-repeat;
+                    transform: translateY(120%);
+                }
+
+            }
+        }
+    }
+}
