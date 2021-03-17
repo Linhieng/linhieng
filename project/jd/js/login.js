@@ -15,7 +15,8 @@ window.addEventListener('DOMContentLoaded', function() {
                     console.log('登陆成功！！！')
                     localStorage.setItem('isLogin', true)
                     localStorage.setItem('username', username.value)
-                    window.location.href= '../index.html'
+                    // window.location.href= '../index.html'
+                    window.location.href= './index.html'
                 } else {
                     localStorage.setItem('isLogin', false)
                     alert('登陆失败, '+xhr.response)
