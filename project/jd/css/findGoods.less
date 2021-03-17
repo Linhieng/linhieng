@@ -13,7 +13,8 @@
             position        : absolute;
             top             : 0;
             left            : 0;
-            background-image: url('../images/findGoods/findGoodsImg.png');
+            // background-image: url('../images/findGoods/findGoodsImg.png');
+            background-image: url('../images/findGoods/findGoodsImg2.png');
             background-size : 190px 260px;
 
             #findGoodGoods {
@@ -69,29 +70,14 @@
                     height : 260px;
                     display: flex;
 
-                    img {
-                        flex: 0 0 auto;
-                        display: block;
-                        width  : 150px;
-                        height : 150px;
-                    }
-
-                    span {
-                        flex: 0 0 auto;
-                        display      : block;
-                        width        : 150px;
-                        height       : 21px;
-                        margin       : 10px 0;
-                        font-size    : 14px;
-                        color        : #333;
-                        line-height  : 21px;
-                        overflow     : hidden;
-                        white-space  : nowrap;
-                        text-overflow: ellipsis;
-                    }
+                    
+                    
                     li {
                         flex            : 0 0 auto;
-                        width           : 198px;
+                        // width           : 198px;
+                        width: 150px;
+                        margin: 0 25px;
+                        // width: 200px;
                         height          : 250px;
                         display: flex;
                         flex-direction: column;
@@ -101,6 +87,38 @@
                             margin-top: 15px;
                             height: 235px;
                         }
+                        span {
+                            flex: 0 0 auto;
+                            display      : block;
+                            width        : 150px;
+                            height       : 21px;
+                            margin       : 10px 0;
+                            font-size    : 14px;
+                            color        : #333;
+                            line-height  : 21px;
+                            overflow     : hidden;
+                            white-space  : nowrap;
+                            text-overflow: ellipsis;
+                        }
+                        &:hover span {color: #e12518;}
+                        div {
+                            position: relative;
+                            flex: 0 0 auto;
+                            img {
+                                display: block;
+                                width  : 150px;
+                                height : 150px;
+                            }
+                            .cover {
+                                width: 150px;
+                                height: 150px;
+                                position: absolute;
+                                z-index: 2;
+                                top: 0;
+                                left: 0;
+                            }
+                        }
+                        &:hover .cover {background-color: #ffffff33;}
                     }
                 }
 
@@ -108,22 +126,24 @@
                     opacity: 0;
 
                     .line {
-                        width           : 990px;
+                        // width           : 990px;
+                        width: 950px;
+                        margin: 0 20px;
                         height          : 4px;
-                        background-color: #ddd;
+                        background-color: #f3f3f3;
                         position        : absolute;
                         bottom          : 4px;
+                        .dot {
+                            width           : 100px;
+                            height          : 12px;
+                            border-radius   : 10px;
+                            background-color: #d8d8d8;
+                            position        : absolute;
+                            bottom          : -4px;
+                            cursor          : pointer;
+                        }
                     }
 
-                    .dot {
-                        width           : 100px;
-                        height          : 12px;
-                        border-radius   : 10px;
-                        background-color: #aaddee;
-                        position        : absolute;
-                        bottom          : 0;
-                        cursor          : pointer;
-                    }
                 }
 
                 &:hover .progressBar {

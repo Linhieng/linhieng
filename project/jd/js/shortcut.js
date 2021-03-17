@@ -1,15 +1,25 @@
 window.addEventListener('DOMContentLoaded', function() {
+
+    /* 登陆和未登录 */
     let isLogin = localStorage.getItem('isLogin') === 'true'
     const topUser = document.getElementById('top-user')
+    const username = document.getElementsByClassName('username')
     
     if (isLogin === true) {
         topUser.getElementsByClassName('noLogin')[0].style.display = 'none'
         topUser.getElementsByClassName('hadLogin')[0].style.display = 'block'
+        for (let i = 0; i < username.length; i++) {
+            username[i].innerText = localStorage.getItem('username')
+            
+        }
     } else {
         topUser.getElementsByClassName('noLogin')[0].style.display = 'block'
         topUser.getElementsByClassName('hadLogin')[0].style.display = 'none'
 
     }
+    
+
+    /* 地址栏处的点击选中效果 */
     
     const location = document.getElementById('location')
     const locationName = document.getElementById('locationName')

@@ -143,6 +143,7 @@
                                 text-overflow:ellipsis;
                                 font-size: 14px;
                                 color: #333;
+                                text-align: center;
                             }
                             &:hover .info {color: #e12518;}
                             .price {
@@ -227,7 +228,12 @@
                                     flex: 0 0 auto;
                                     background-color: #ffffff;
                                     p{color: #333;}
-                                    .info {line-height: 1.3;}
+                                    .info {
+                                        line-height: 1.3;
+                                        width: 75px;
+                                        height: 30px;
+                                        overflow: hidden;
+                                    }
                                     &:hover .info {color: #e12518;}
                                     .now {
                                         font-size: 14px;
