@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', function() {
     titleArr[0].style.color = '#e12518'
     titleArr[0].style.borderBottom = '2px solid #e12518'
     items[0].style.zIndex = '11'
-    console.log(titleArr)
     
     for (let i = 0; i < titleArr.length; i++) {
         titleArr[i].onmouseover = () => {

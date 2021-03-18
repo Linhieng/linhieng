@@ -54,11 +54,11 @@ window.addEventListener('DOMContentLoaded', function() {
             moveY(p, 0, -100, () => {
                 p.style.transform = 'translateY(100%)'
             })
-            moveY(fiveYear, 120, 0)
+            moveY(fiveYear, 200, 0)
         } else {
             moveY(p, 100, 0)
-            moveY(fiveYear, 0, -120, () => {
-                fiveYear.style.transform = 'translateY(120%)'
+            moveY(fiveYear, 0, -200, () => {
+                fiveYear.style.transform = 'translateY(200%)'
             })
             // p.style.transform = 'translateY(-100%)'
             // fiveYear.style.transform = 'translateY(0)'
