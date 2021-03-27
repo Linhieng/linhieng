@@ -324,7 +324,7 @@ hexo -d 上传到github上（如果没有安装hexo发布插件将无法发布�
 </blockquote>
 <ul>
 <li><p>需要在本地创建 ssh 密钥，然后在 github 上绑定该 ssh 密钥</p>
-  <pre class="line-numbers language-none"><code class="language-none">ssh-keygen -t  # 创建ssh密钥 可以在后面添加 -C &quot;备注&quot; 用于备注  
+  <pre class="line-numbers language-none"><code class="language-none">ssh-keygen -t rsa  # 创建ssh密钥 可以在后面添加 -C &quot;备注&quot; 用于备注  
 ssh密钥在 ~目录下的.ssh中的id_rsa.pub中（cd ~ 可以快速进入~目录）  
 绑定后可以通过 ssh -T git@github.com 测试是否成功，成功时应该会提示  
 Hi KeeGithub&#x2F;linhieng.github.io! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
