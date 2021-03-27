@@ -1,0 +1,156 @@
+#findGoods {
+
+    .w1190 {
+        flex         : 0 0 auto;
+        height       : 260px;
+        margin-bottom: 20px;
+        position     : relative;
+
+        #findGoods-img {
+            display         : block;
+            width           : 190px;
+            height          : 260px;
+            position        : absolute;
+            top             : 0;
+            left            : 0;
+            // background-image: url('../images/findGoods/findGoodsImg.png');
+            background-image: url('../images/findGoods/findGoodsImg2.png');
+            background-size : 190px 260px;
+
+            #findGoodGoods {
+                width: 160px;
+                height: 90px;
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                background-image: url('../images/findGoods/findGoodGoods.png');
+                background-size: 160px 90px;
+                p {
+                    position: absolute;
+                    top: 55px;
+                    left: 20px;
+                    width: 80px;
+                    height: 24px;
+                    line-height: 24px;
+                    font-size: 16px;
+                    color: #ffffffcc;
+                }
+                i {
+                    display: block;
+                    width: 16px;
+                    height: 16px;
+                    position: absolute;
+                    top: 60px;
+                    left: 110px;
+                    background-image: url('../images/findGoods/sprite.png');
+                    background-position: 0 -16px;
+                }
+            }
+            &:hover #findGoodGoods i {
+                background-position: 0 0;
+            }
+        }
+
+        #rollImg {
+            width      : 990px;
+            height     : 260px;
+            margin-left: 10px;
+            position   : absolute;
+            right      : 0;
+            top        : 0;
+
+            #nice-goods-recommend {
+                width   : 990px;
+                height  : 260px;
+                position: relative;
+                overflow: hidden;
+                background-color: #fff;
+                ul {
+                    width  : max-content;
+                    height : 260px;
+                    display: flex;
+
+                    
+                    
+                    li {
+                        flex            : 0 0 auto;
+                        // width           : 198px;
+                        width: 150px;
+                        margin: 0 25px;
+                        // width: 200px;
+                        height          : 250px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        &:nth-of-type(2n+1) {
+                            margin-top: 15px;
+                            height: 235px;
+                        }
+                        span {
+                            flex: 0 0 auto;
+                            display      : block;
+                            width        : 150px;
+                            height       : 21px;
+                            margin       : 10px 0;
+                            font-size    : 14px;
+                            color        : #333;
+                            line-height  : 21px;
+                            overflow     : hidden;
+                            white-space  : nowrap;
+                            text-overflow: ellipsis;
+                        }
+                        &:hover span {color: #e12518;}
+                        div {
+                            position: relative;
+                            flex: 0 0 auto;
+                            img {
+                                display: block;
+                                width  : 150px;
+                                height : 150px;
+                            }
+                            .cover {
+                                width: 150px;
+                                height: 150px;
+                                position: absolute;
+                                z-index: 2;
+                                top: 0;
+                                left: 0;
+                            }
+                        }
+                        &:hover .cover {background-color: #ffffff33;}
+                    }
+                }
+
+                .progressBar {
+                    opacity: 0;
+
+                    .line {
+                        // width           : 990px;
+                        width: 950px;
+                        margin: 0 20px;
+                        height          : 4px;
+                        background-color: #f3f3f3;
+                        position        : absolute;
+                        bottom          : 4px;
+                        .dot {
+                            width           : 100px;
+                            height          : 12px;
+                            border-radius   : 10px;
+                            background-color: #d8d8d8;
+                            position        : absolute;
+                            bottom          : -4px;
+                            cursor          : pointer;
+                        }
+                    }
+
+                }
+
+                &:hover .progressBar {
+                    opacity: 1;
+                }
+
+            }
+        }
+    }
+}
