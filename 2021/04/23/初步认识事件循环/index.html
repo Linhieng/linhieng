@@ -397,26 +397,15 @@
 <h2 id="异步任务中也有优先级"><a href="#异步任务中也有优先级" class="headerlink" title="异步任务中也有优先级"></a>异步任务中也有优先级</h2><blockquote>
 <p>消息队列和作业队列</p>
 </blockquote>
-<pre><code>先来看看下面这段代码
-
-<pre class="line-numbers language-none"><code class="language-none">setTimeout(() &#x3D;&gt; &#123; console.log(&#39;2&#39;); &#125;, 0);
+<p>  先来看看下面这段代码</p>
+<pre><code><pre class="line-numbers language-none"><code class="language-none">setTimeout(() &#x3D;&gt; &#123; console.log(&#39;2&#39;); &#125;, 0);
 Promise.resolve().then(() &#x3D;&gt; &#123; console.log(&#39;1&#39;); &#125;)
 console.log(&#39;同步任务最先调用&#39;);
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-你会发现 then 代码比 setTimeout 代码更早输出
-但明明 then 和 setTimeout 都是异步任务
-如果你知道了异步任务中也有优先级那就很好理解了
-
-setTimeout 代码会在 消息队列中等待调用
-而 Promise(即 then ) 会在作业队列中等待调用
-而系统规定了作业队列的优先级比消息队列的优先级高
-
-所以当栈清空时(输出了&#39;同步任务最先调用&#39;后)
-系统会优先去调用作业队列中的任务
-当作业队列中的任务全部执行完成后才会去调用消息队列中的任务
-这就能解释上面代码输出顺序的原因了
 </code></pre>
+<p>  你会发现 then 代码比 setTimeout 代码更早输出<br>  但明明 then 和 setTimeout 都是异步任务<br>  如果你知道了异步任务中也有优先级那就很好理解了</p>
+<p>  setTimeout 代码会在 消息队列中等待调用<br>  而 Promise(即 then ) 会在作业队列中等待调用<br>  而系统规定了作业队列的优先级比消息队列的优先级高</p>
+<p>  所以当栈清空时(输出了’同步任务最先调用’后)<br>  系统会优先去调用作业队列中的任务<br>  当作业队列中的任务全部执行完成后才会去调用消息队列中的任务<br>  这就能解释上面代码输出顺序的原因了</p>
 <blockquote>
 <p>看看下面的代码输出结果你是否能够理解</p>
 </blockquote>
