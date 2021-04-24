@@ -348,7 +348,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    3.3k
                 </div>
                 
 
@@ -414,27 +414,13 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <blockquote>
 <p>对 setTimeout 的延迟时间参数进行补充说明</p>
 </blockquote>
-<pre><code>不知道大家是否曾对这个参数感到疑惑
-我们都知道 js 是单线程的, 请看下面这个代码
-<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<p>  不知道大家是否曾对这个参数感到疑惑<br>  我们都知道 js 是单线程的, 请看下面这个代码<br>    <pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1999999990</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'for循环结束'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-不知道大家是否会认为 setTimeout 的延迟时间是在输出‘for循环结束’后才计时的
-但结果却是输出 ‘for 循环结束’ 后就直接输出 1 了, 根本就没有等待 1 s
-下面这段代码才会等待一秒
-<pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'for循环结束'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><br>  不知道大家是否会认为 setTimeout 的延迟时间是在输出‘for循环结束’后才计时的<br>  但结果却是输出 ‘for 循环结束’ 后就直接输出 1 了, 根本就没有等待 1 s<br>  下面这段代码才会等待一秒<br>    <pre class="line-numbers language-js" data-language="js"><code class="language-js"><span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1'</span><span class="token punctuation">)</span> <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1999999990</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'for循环结束'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-如果大家有对这个输出有疑惑可能是受到 ‘js 是单线程的’ 影响了
-
-所以这里我想要说明的是所谓 js 是单线程的并不是指 js 只调用一个线程
-js 是单线程的指的是那些 [浏览器处理用户事件和页面绘制](https://developer.mozilla.org/zh-CN/docs/Glossary/Main_thread) 是单线程的
-但是有一些东西是可以在其他线程上执行的, 比如 setTimeout 方法的延迟时间参数
-它的计算其实其实在其他线程上计算的, 但系统识别到 setTimeout 时就会开始计算了
-只不过是计算结束后并不会去执行 setTimeout 中的回调函数, 回调函数还是需要由主线程去调用的
-
-所以这个延迟时间参数准确点来说其实是**最低**延迟时间参数
-</code></pre>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'for循环结束'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><br>  如果大家有对这个输出有疑惑可能是受到 ‘js 是单线程的’ 影响了</p>
+<p>  所以这里我想要说明的是所谓 js 是单线程的并不是指 js 只调用一个线程<br>  js 是单线程的指的是那些 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Main_thread">浏览器处理用户事件和页面绘制</a> 是单线程的<br>  但是有一些东西是可以在其他线程上执行的, 比如 setTimeout 方法的延迟时间参数<br>  它的计算其实其实在其他线程上计算的, 但系统识别到 setTimeout 时就会开始计算了<br>  只不过是计算结束后并不会去执行 setTimeout 中的回调函数, 回调函数还是需要由主线程去调用的</p>
+<p>  所以这个延迟时间参数准确点来说其实是<strong>最低</strong>延迟时间参数</p>
 <h2 id="异步任务中也有优先级"><a href="#异步任务中也有优先级" class="headerlink" title="异步任务中也有优先级"></a>异步任务中也有优先级</h2><blockquote>
 <p>消息队列和作业队列</p>
 </blockquote>
