@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="前端学习路线, blog">
+    <meta name="keywords" content="异步和事件循环, blog">
     <meta name="description" content="我只是一个普通人，平凡，但不平庸！">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -27,7 +27,7 @@
 </script>
 
 
-    <title>前端学习路线 | Linhieng</title>
+    <title>异步和事件循环 | Linhieng</title>
     <link rel="icon" type="image/png" href="https://linhieng.com/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="https://linhieng.com/libs/awesome/css/all.css">
@@ -62,7 +62,7 @@
     <!--动态科技线-->
     <!-- <script type="text/javascript" color="0 0 0" opacity='1' zIndex="-2" count="100" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"> </script> -->
     <!--樱花飘落-->
-    <script type="text/javascript">document.write('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Yafine/cdn@3.3.4/source/js/sakura.js"><\/script>');</script>
+    <!-- <script type="text/javascript">document.write('<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Yafine/cdn@3.3.4/source/js/sakura.js"><\/script>');</script> -->
     <!--雪花飘落-->
     <!--<script src="https://cdn.jsdelivr.net/gh/Yafine/cdn@3.3.4/source/js/snow1.js"></script>-->
 
@@ -70,7 +70,7 @@
     <nav id="headNav" class="bg-color nav-transparent">
         <div id="navContainer" class="nav-wrapper container">
             <div class="brand-logo">
-                <a target="_blank" rel="noopener" href="https://linhieng.com/" class="waves-effect waves-light">
+                <a href="https://linhieng.com/" class="waves-effect waves-light">
                     
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" data-original="https://linhieng.com/medias/logo.png" class="logo-img" alt="LOGO">
                     
@@ -84,7 +84,7 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a target="_blank" rel="noopener" href="https://linhieng.com/DIY" class="waves-effect waves-light">
+    <a href="https://linhieng.com/DIY" class="waves-effect waves-light">
       
       <span>DIY页面</span>
     </a>
@@ -93,7 +93,7 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a target="_blank" rel="noopener" href="https://linhieng.com/tags" class="waves-effect waves-light">
+    <a href="https://linhieng.com/tags" class="waves-effect waves-light">
       
       <i class="fas fa-tags" style="zoom: 0.6;"></i>
       
@@ -104,7 +104,7 @@
   
   <li class="hide-on-med-and-down nav-item">
     
-    <a target="_blank" rel="noopener" href="https://linhieng.com/categories" class="waves-effect waves-light">
+    <a href="https://linhieng.com/categories" class="waves-effect waves-light">
       
       <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
       
@@ -141,7 +141,7 @@
         
         <li class="m-nav-item">
 	  
-		<a target="_blank" rel="noopener" href="https://linhieng.com/DIY" class="waves-effect waves-light">
+		<a href="https://linhieng.com/DIY" class="waves-effect waves-light">
 			
 				<i class="fas fa-fw fa-link"></i>
 			
@@ -152,7 +152,7 @@
         
         <li class="m-nav-item">
 	  
-		<a target="_blank" rel="noopener" href="https://linhieng.com/tags" class="waves-effect waves-light">
+		<a href="https://linhieng.com/tags" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-tags"></i>
 			
@@ -163,7 +163,7 @@
         
         <li class="m-nav-item">
 	  
-		<a target="_blank" rel="noopener" href="https://linhieng.com/categories" class="waves-effect waves-light">
+		<a href="https://linhieng.com/categories" class="waves-effect waves-light">
 			
 			    <i class="fa-fw fas fa-bookmark"></i>
 			
@@ -188,12 +188,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('https://linhieng.com/images/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('https://linhieng.com/images/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">前端学习路线</h1>
+                    <h1 class="description center-align post-title">异步和事件循环</h1>
                 </div>
             </div>
         </div>
@@ -309,7 +309,7 @@
                     
                     <div class="article-tag">
                         
-                            <a target="_blank" rel="noopener" href="https://linhieng.com/tags/%E7%AC%94%E8%AE%B0/">
+                            <a href="https://linhieng.com/tags/%E7%AC%94%E8%AE%B0/">
                                 <span class="chip bg-color">笔记</span>
                             </a>
                         
@@ -321,7 +321,7 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a target="_blank" rel="noopener" href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                            <a href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
                                 笔记
                             </a>
                         
@@ -332,17 +332,7 @@
 
             <div class="post-info">
                 
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2021-04-23
-                </div>
-                
 
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2021-09-15
-                </div>
                 
 
                 
@@ -352,6 +342,11 @@
                 </div>
                 
 
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
                 
 
                 
@@ -425,7 +420,7 @@ console<span class="token punctuation">.</span><span class="token function">log<
 console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'for循环结束'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 </code></pre>
 <p>  如果大家有对这个输出有疑惑可能是受到 ‘js 是单线程的’ 影响了</p>
-<p>  所以这里我想要说明的是所谓 js 是单线程的并不是指 js 只调用一个线程<br>  js 是单线程的指的是那些 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Glossary/Main_thread">浏览器处理用户事件和页面绘制</a> 是单线程的<br>  但是有一些东西是可以在其他线程上执行的, 比如 setTimeout 方法的延迟时间参数<br>  它的计算其实其实在其他线程上计算的, 但系统识别到 setTimeout 时就会开始计算了<br>  只不过是计算结束后并不会去执行 setTimeout 中的回调函数, 回调函数还是需要由主线程去调用的</p>
+<p>  所以这里我想要说明的是所谓 js 是单线程的并不是指 js 只调用一个线程<br>  js 是单线程的指的是那些 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Main_thread">浏览器处理用户事件和页面绘制</a> 是单线程的<br>  但是有一些东西是可以在其他线程上执行的, 比如 setTimeout 方法的延迟时间参数<br>  它的计算其实其实在其他线程上计算的, 但系统识别到 setTimeout 时就会开始计算了<br>  只不过是计算结束后并不会去执行 setTimeout 中的回调函数, 回调函数还是需要由主线程去调用的</p>
 <p>  所以这个延迟时间参数准确点来说其实是<strong>最低</strong>延迟时间参数</p>
 <h2 id="异步任务中也有优先级"><a href="#异步任务中也有优先级" class="headerlink" title="异步任务中也有优先级"></a>异步任务中也有优先级</h2><blockquote>
 <p>消息队列和作业队列</p>
@@ -553,19 +548,19 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
 </blockquote>
 </li>
 </ul>
-<p>上面的代码我的解释应该是有局限的, 所以不要以“我”为准, 我只是提供了一个角度思考<br>为什么我会这样说呢？那时因为我看到了<a target="_blank" rel="noopener" href="https://juejin.cn/post/6945319439772434469">一道题</a>, 看完后才发现我的理解还不够深层次</p>
-<p>所以我的这种角度只能解决 then 中的返回值是 undefined 的情况, 如果 then 中的返回值是 return Promise.resolve(); 那么就无法简单地用我上面的思路解决了, 详细请看<a target="_blank" rel="noopener" href="https://juejin.cn/post/6945319439772434469">一道让我失眠的 Promise 面试题</a></p>
+<p>上面的代码我的解释应该是有局限的, 所以不要以“我”为准, 我只是提供了一个角度思考<br>为什么我会这样说呢？那时因为我看到了<a href="https://juejin.cn/post/6945319439772434469">一道题</a>, 看完后才发现我的理解还不够深层次</p>
+<p>所以我的这种角度只能解决 then 中的返回值是 undefined 的情况, 如果 then 中的返回值是 return Promise.resolve(); 那么就无法简单地用我上面的思路解决了, 详细请看<a href="https://juejin.cn/post/6945319439772434469">一道让我失眠的 Promise 面试题</a></p>
 </li>
 </ul>
 <h2 id="浅谈事件循环"><a href="#浅谈事件循环" class="headerlink" title="浅谈事件循环"></a>浅谈事件循环</h2><blockquote>
 <p>什么是事件循环</p>
 </blockquote>
-<p>  MDN 对事件循环的定义是<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop">事件循环负责执行代码、收集和处理事件以及执行队列中的子任务</a><br>  也就是说 系统不断地弹栈压栈, 不断地去查看队列的过程就是事件循环</p>
-<p>  在这个不断弹栈压栈的过程中, 有一个特殊的节点<br>  那就是空栈, 我们将<strong>空栈</strong>作为时间上的分割点<br>  那么从一次栈清空到下一次栈清空, 这个时间段我们称其为一个<strong>滴答</strong><br>  对于滴答, node 中文官网的介绍是:<br>    <a target="_blank" rel="noopener" href="http://nodejs.cn/learn/understanding-process-nexttick">每当事件循环进行一次完整的行程时，我们都将其称为一个滴答。</a></p>
+<p>  MDN 对事件循环的定义是<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop">事件循环负责执行代码、收集和处理事件以及执行队列中的子任务</a><br>  也就是说 系统不断地弹栈压栈, 不断地去查看队列的过程就是事件循环</p>
+<p>  在这个不断弹栈压栈的过程中, 有一个特殊的节点<br>  那就是空栈, 我们将<strong>空栈</strong>作为时间上的分割点<br>  那么从一次栈清空到下一次栈清空, 这个时间段我们称其为一个<strong>滴答</strong><br>  对于滴答, node 中文官网的介绍是:<br>    <a href="http://nodejs.cn/learn/understanding-process-nexttick">每当事件循环进行一次完整的行程时，我们都将其称为一个滴答。</a></p>
 <blockquote>
 <p>node 的 process.nextTick() 和 setImmediate()</p>
 </blockquote>
-<p>  对 process.nextTick() 的定义是：<a target="_blank" rel="noopener" href="http://nodejs.cn/learn/understanding-process-nexttick">指示引擎在当前操作结束（在下一个事件循环滴答开始之前）时调用此函数</a></p>
+<p>  对 process.nextTick() 的定义是：<a href="http://nodejs.cn/learn/understanding-process-nexttick">指示引擎在当前操作结束（在下一个事件循环滴答开始之前）时调用此函数</a></p>
 <p>  注意不要和前面的消息队列和作业队列混淆, 它们不是一回事</p>
 <p>  要问我如何理解的话, 用我的话来说描述就是<br>  在一个滴答周期里面, 如果这个周期中存在 process.nextTick() 函数<br>  那么当栈清空前的那一刻会先去调用所有能够识别到的 process.nextTick()【包括嵌套】<br>  待执行完成后才会去查看其他的队列中的任务(也就是开启下一个滴答)</p>
 <p>  <strong>注意</strong> process.nextTick() 有一个设定：<br>  如果 process.nextTick() 中还有 process.nextTick()<br>  那么系统同样会去调用嵌套在里面的 process.nextTick()<br>  也就是说嵌套的 process.nextTick() 也会被执行<br>  即  <strong>当栈清空前的那一刻会先去调用该周期中(滴答) 的所有 process.nextTick() 包括嵌套的</strong></p>
@@ -594,7 +589,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                     
                         <div class="article-tag">
                             
-                                <a target="_blank" rel="noopener" href="https://linhieng.com/tags/%E7%AC%94%E8%AE%B0/">
+                                <a href="https://linhieng.com/tags/%E7%AC%94%E8%AE%B0/">
                                     <span class="chip bg-color">笔记</span>
                                 </a>
                             
@@ -642,7 +637,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a target="_blank" rel="noopener" href="https://linhieng.com/2021/09/15/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
+                <a href="https://linhieng.com/2021/09/15/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF/">
                     <div class="card-image">
                         
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" data-original="https://linhieng.com/images/1.jpg" class="responsive-img" alt="前端学习路线">
@@ -664,7 +659,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a target="_blank" rel="noopener" href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                            <a href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
                                     笔记
                                 </a>
                             
@@ -675,7 +670,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                 
                 <div class="card-action article-tags">
                     
-                    <a target="_blank" rel="noopener" href="https://linhieng.com/tags/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">
+                    <a href="https://linhieng.com/tags/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">
                         <span class="chip bg-color">前端学习</span>
                     </a>
                     
@@ -690,7 +685,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a target="_blank" rel="noopener" href="https://linhieng.com/2021/03/22/HEXO%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+                <a href="https://linhieng.com/2021/03/22/HEXO%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
                     <div class="card-image">
                         
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAMAAABOo35HAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAC9UExURVlZWdPT07KysmRkZIWFhfT09JmZmWZmZm9vb39/fxkZGUxMTDMzM3p6epCQkKamppubm729venp6cjIyN7e3tbW1s/Pz8LCwnx8fLS0tFZWVoiIiI+Pj6GhoeTk5Glpabu7u93d3evr66CgoJSUlKqqqsnJyeDg4Hd3d8PDw+Xl5bi4uNHR0dvb26Ojo6urq+fn51hYWDg4OCgoKHBwcK2traenp0FBQe7u7vHx8U5OTre3t8zMzHV1df///7GrnpQAAAA/dFJOU///////////////////////////////////////////////////////////////////////////////////AI4mfBcAAAUGSURBVHja7NoJb6M4GMZxY0NCD64kve/pMZ2d3Z297+X7f6zFNmBAMUXa6URl/q9UJSWPUPzrizFWRUlNLgEBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYYIEFAVhggQUWWGBBABZYYIEFFlgQgAUWWGCBBRYEYIEFFlhggQUBWGCBBRZYYEEAFlhggQUWWBCABRZYYIEFFgRggQUWWGCBBQFYYIEFFlhgQQAWWGCBBRZYEIAFFlhggQUWBGCBBRZYn6cCIcRXgvX/h9qcIVBqDdbEM8RCxGCB9QqXYRwHYDHBgwXWl8eKZKiESHI3Ba1kWs3fKixcaJUl1YyeBm7Ocq+yLItUiVBGnXxenSHJolIKEcwHq6ikbOX1YGVzQCTN8LPmSLreghUl9sN4Uw7yajMrLC0TZ1ImzqY6FEop0+pIaEN5HaoOxVuwEqFyc4I46uSlzOLqgxlh6UaR9l3VYWl9Fdoxb1Q90KJtu41pwwFW/WHhTtW8i7TafLCqRsk6bsGw63L9qurXRmuIlbT9lDQnlXU+nBFW1Q2qnZbDprWa2tjR90LZFqx1/+Td/HpGWLlrLDvIwTcx6dQ1Vrntbig68cDms3JwbA5Y1azs1ger6sNV/bbIw1jU81MvNAGrl58RVn8ozW+btF08iGFoAlYvP3csfVur1gJBEIA1uBmue5dhZDOyO2epbmgCVi8/I6x0MMHH9pjsTfBhNzQBq5uPZoQlB0uH3DZG4EZqQ26fL3sZq5uf09Ih6qw3i/pm6BZO0qZX7rrUS68Xsbr5ZE4rePMk08pk9aUZugfqppvs6AM1Acvlo/StP+6EbW06z8hJqxbYp2BZPQUnFsLsKuhQdaHqn5ewbF7KXIn0jWO5MqOQ7RaNLPtbNMmmhimj0GUmYLl8Gs0Lq4wyPbTu1l2QKqHSouzs3OlDIslW5SQsnY/NXmFplyNvEuuLV/Tau9BzwiraDUSwXmysztYWWNtL1psXeumgIrDGaqXvBfUuvtqUYI3V2t1wk1e2msFluJJm6zDJXv/fIfjPP7DAAgsssCiwwAILLLDAosACCyywwAKLAgsssMACC6zt9fDz/v75tyOB+98PD2+ORgKffjw4OP1uJPDxl+Xy8v1I4MPF3t7VNyOB4/vF4uzdzrG+39f1kz/w66Guv/yBvw90KX/gZKkr8Qf+2dOV+gNHC12/7RxrabD2/a31bLAO/a11YbAO/K21MFhLf2s9Gqw9f2vdGqzFu11jnVusE2/gxmI9eQOnFuvYG7i0WH7uK4t15w2cWazrXWP9a7H8f/bQYvm/6IPF+sF/pVssf19Ii/WH/0K2WH/uGuvEWC39gSdj9Twy+Rqri5EZx1gt/IE7Y/XoD1wbq9vd3w1PlufnD2OBp+ebm/uxwPHF6emnscDR4vLy41jg7vHq6sNY4Pr27OyYdRaLUrDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssMCiwAILLLDAAosCCyywwAILLAossMACCyywKLDAAgsssL6u+k+AAQCR9eHtLKvLfwAAAABJRU5ErkJggg==" data-original="https://linhieng.com/images/2.jpg" class="responsive-img" alt="使用 HEXO 搭建博客笔记">
@@ -712,7 +707,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a target="_blank" rel="noopener" href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
+                            <a href="https://linhieng.com/categories/%E7%AC%94%E8%AE%B0/" class="post-category">
                                     笔记
                                 </a>
                             
@@ -723,7 +718,7 @@ Promise<span class="token punctuation">.</span><span class="token function">reso
                 
                 <div class="card-action article-tags">
                     
-                    <a target="_blank" rel="noopener" href="https://linhieng.com/tags/hexo/">
+                    <a href="https://linhieng.com/tags/hexo/">
                         <span class="chip bg-color">hexo</span>
                     </a>
                     
