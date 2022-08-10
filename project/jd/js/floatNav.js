@@ -8,14 +8,20 @@ window.addEventListener('DOMContentLoaded', function () {
     toTop.onclick = scrollTop
     let timer = null
     function scrollTop() {
-        clearInterval(timer)
-        timer = setInterval(() => {
-            document.documentElement.scrollTop -= 1
-            if (document.documentElement.scrollTop <= 0) {
-                document.documentElement.scrollTop = 0
-                clearInterval(timer)
-            }
-        }, 2);
+        // clearInterval(timer)
+        // timer = setInterval(() => {
+        //     document.documentElement.scrollTop -= 1
+        //     if (document.documentElement.scrollTop <= 0) {
+        //         document.documentElement.scrollTop = 0
+        //         clearInterval(timer)
+        //     }
+        // }, 2);
+        
+        // 瞬移
+        // document.documentElement.scrollTop = 0
+        
+        // window 自带动画滚动
+        window.scroll({ top: 0, left: 0, behavior: 'smooth' })
     }
     
     
