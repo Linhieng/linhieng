@@ -1,7 +1,2 @@
-### Hi there 👋
-
-- 🔭 I'm currently looking for a job as a fresh graduate.
-- 🌱 I’m currently learning **DSA**, **English** and **Frontend**.
-- 🤔 I'm looking for help with frontend interview matters.
-- 📫 How to reach me: linhieng@qq.com
-- ⭐ I would like to start an original open-source project of my own and hope to receive some stars. (Until now, I had only one repository that had received some stars, but the code was not my original. It came from a course I was learning.)
+|![readme card](https://github-readme-stats.vercel.app/api?username=linhieng&theme=transparent&hide_border=true)|![top langs](https://github-readme-stats.vercel.app/api/top-langs/?username=linhieng&layout=compact&hide_border=true)|
+|--|--|
