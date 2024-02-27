@@ -1,5 +1,5 @@
 <div align="right">  
-  <img src="https://github.com/Linhieng/linhieng/blob/master/gif1.gif" width="200" alt="gif">
+  <img src="https://github.com/Linhieng/linhieng/blob/master/lick.webp" width="200" alt="gif">
 </div>
 
 
