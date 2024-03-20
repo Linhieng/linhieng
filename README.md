@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/linhieng/linhieng/blob/master/welcome.svg">
-    <img src="../welcome.svg" width="800" alt="Click to see the source">
+    <img src="welcome.svg" width="800" alt="Click to see the source">
   </a>
 </div>
 
