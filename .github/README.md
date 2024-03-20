@@ -1,4 +1,10 @@
-<div align="right">  
+<div align="center">
+  <a href="https://github.com/linhieng/linhieng/blob/master/welcome.svg">
+    <img src="../welcome.svg" width="800" alt="Click to see the source">
+  </a>
+</div>
+
+<div align="right">
   <img src="https://github.com/Linhieng/linhieng/blob/master/lick.webp" width="200" alt="gif">
 </div>
 
@@ -19,6 +25,6 @@
 
 
 
-<div align="left"> 
+<div align="left">
   <img src="https://media.tenor.com/cyORI7kwShQAAAAi/shigure-ui-dance.gif" alt="shigure ui dance gif" width="200"> <br>
 </div>
