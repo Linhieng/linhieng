@@ -12,14 +12,8 @@
 
 <div align="center">
 
-
 |![readme card](https://github-readme-stats.vercel.app/api?username=linhieng&theme=transparent&hide_border=true)|![toplangs](https://github-readme-stats.vercel.app/api/top-langs/?username=linhieng&layout=compact&hide_border=true)|
 |--|--|
-
-<br>
-
-<img src="https://moe-counter.glitch.me/get/@linhieng?theme=gelbooru" />
-
 
 </div>
 
