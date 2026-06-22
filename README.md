@@ -15,6 +15,11 @@
 |![readme card](https://github-readme-stats.vercel.app/api?username=linhieng&theme=transparent&hide_border=true)|![toplangs](https://github-readme-stats.vercel.app/api/top-langs/?username=linhieng&layout=compact&hide_border=true)|
 |--|--|
 
+<br/>
+
+
+<img src="https://count.getloli.com/@linhieng?theme=rule34" alt="linhieng" />
+
 </div>
 
 
